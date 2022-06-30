@@ -15,8 +15,9 @@ class FavoriteStateManager extends ChangeNotifier {
   var saved = <Widget>{}; //NEW
   var alreadySaved;
   void addFavorite() {
-    for (var i in buildMenuMonAn()) {}
-    alreadySaved = saved.contains(buildMenuMonAn());
+    for (var i in buildMenuMonAn()) {
+      alreadySaved = saved.contains(buildMenuMonAn());
+    }
   }
 
   void changeHeart() {
