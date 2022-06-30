@@ -1,48 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grab_app/products_list_bar_widget.dart';
+import 'package:provider/provider.dart';
 import 'products_header_widget.dart';
 import 'mon_an_widget.dart';
 import 'mon_an_construct.dart';
 import 'mon_an_data.dart';
 
-class FavoriteStateManager extends ChangeNotifier {
-  Widget favorite = const Icon(
-    Icons.favorite_border,
-    color: Colors.black38,
-  );
-  bool isFavorite = false;
-
-  var saved = <Widget>{}; //NEW
-  var alreadySaved;
-  void addFavorite() {
-    for (var i in buildMenuMonAn()) {
-      alreadySaved = saved.contains(buildMenuMonAn());
-    }
-  }
-
-  void changeHeart() {
-    isFavorite = !isFavorite;
-    isFavorite
-        ? favorite = const Icon(
-            Icons.favorite,
-            color: Colors.red,
-          )
-        : favorite = const Icon(
-            Icons.favorite_border,
-            color: Colors.black38,
-          );
-
-    notifyListeners();
-  }
-}
-
-List<MonAnWidget> buildMenuMonAn() {
-  List<MonAnWidget> ListMonAnWidget = [];
+List<Consumer> buildMenuMonAn() {
+  List<Consumer> ListMonAnWidget = [];
   List<ChiTietMonAn> data = dataMenu();
 
   for (var i = 0; i < data.length; i++) {
     var chiTietMonAn = data[i];
-    var newMonAnWidget = MonAnWidget(chiTietMonAn);
+
+    var newMonAnWidget =
+        Consumer<ChiTietMonAn>(builder: (context, model, child) {
+      print("Mon an: ${model.shopName}, ${model.isLiked}");
+      return MonAnWidget(chiTietMonAn);
+    });
+
     ListMonAnWidget.add(newMonAnWidget);
   }
   return ListMonAnWidget;

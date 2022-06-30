@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grab_app/mon_an_construct.dart';
 import 'products_page_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -35,15 +36,21 @@ class _ChiTietQuanAnWidgetState extends State<ChiTietQuanAnWidget> {
                           Navigator.pop(context);
                         },
                         child: const Icon(Icons.arrow_back_ios_new_rounded)),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: const CircleBorder(),
-                        primary: Colors.black38,
-                      ),
-                      onPressed: () {
-                        context.read<FavoriteStateManager>().changeHeart();
-                      },
-                      child: context.watch<FavoriteStateManager>().favorite,
+                    Consumer<ChiTietMonAn>(
+                      builder: ((context, isLike, child) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            primary: Colors.black38,
+                          ),
+                          onPressed: () {
+                            isLike.like();
+                          },
+                          child: isLike.isLiked
+                              ? Icon(Icons.favorite)
+                              : Icon(Icons.favorite_border),
+                        );
+                      }),
                     )
                   ],
                 ),

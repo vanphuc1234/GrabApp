@@ -1,12 +1,13 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:flutter_grab_app/mon_an_construct.dart';
 import 'package:provider/provider.dart';
 import 'products_page_widget.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create: (_) => FavoriteStateManager(), child: const MyApp()));
+      create: (_) => ChiTietMonAn(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

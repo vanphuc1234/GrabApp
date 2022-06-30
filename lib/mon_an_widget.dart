@@ -134,15 +134,21 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                   ],
                 ),
               )),
-              //TODO: Favorite Button
+
               TextButton(
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                 ),
                 onPressed: () {
-                  context.read<FavoriteStateManager>().changeHeart();
+                  if (widget.chiTietMonAn.isLiked) {
+                    widget.chiTietMonAn.unlike();
+                  } else {
+                    widget.chiTietMonAn.like();
+                  }
                 },
-                child: context.watch<FavoriteStateManager>().favorite,
+                child: widget.chiTietMonAn.isLiked
+                    ? Icon(Icons.favorite)
+                    : Icon(Icons.favorite_border),
               )
             ],
           )),
