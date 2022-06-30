@@ -1,0 +1,121 @@
+// ignore: unused_import
+import 'package:flutter/material.dart';
+import 'mon_an_construct.dart';
+
+// ignore: non_constant_identifier_names
+List<ChiTietMonAn> dataMenu() {
+  List<ChiTietMonAn> menu = [
+    ChiTietMonAn(
+        id: '01',
+        isKhuyenMai: true,
+        imageLink: 'assets/food1.png',
+        shopName: 'Bánh tráng Merlion',
+        timeDistance: '20 phút',
+        distance: '0.5 km',
+        rating: 5,
+        foodType: 'Ăn vặt',
+        maKm: 1),
+    ChiTietMonAn(
+        id: '02',
+        isKhuyenMai: false,
+        imageLink: 'assets/food2.png',
+        shopName: 'Miu Miu',
+        timeDistance: '25 phút',
+        distance: '1.6 km',
+        rating: 5,
+        foodType: 'Bún - Phở - Cháo',
+        maKm: 3),
+    ChiTietMonAn(
+        id: '03',
+        isKhuyenMai: false,
+        imageLink: 'assets/food3.jpg',
+        shopName: 'Bánh tráng  Merlion',
+        timeDistance: '25 phút',
+        distance: '0.5km',
+        rating: 5,
+        foodType: 'Ăn Vặt',
+        maKm: 5),
+    ChiTietMonAn(
+        id: '04',
+        isKhuyenMai: true,
+        imageLink: 'assets/food4.jpg',
+        shopName: 'Bánh tráng Merlion',
+        timeDistance: '25 phút',
+        distance: '0.5 km',
+        rating: 5,
+        foodType: 'An vat',
+        maKm: 1),
+    ChiTietMonAn(
+        id: '05',
+        isKhuyenMai: false,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2),
+    ChiTietMonAn(
+        id: '06',
+        isKhuyenMai: true,
+        imageLink: 'assets/food5.jpg',
+        shopName: 'Banh trang Merlion',
+        timeDistance: '25 phut',
+        distance: '0.5km',
+        rating: 4.5,
+        foodType: 'An vat',
+        maKm: 2)
+  ];
+
+  return menu;
+}
