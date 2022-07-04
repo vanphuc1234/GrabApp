@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grab_app/mon_an_construct.dart';
-import 'products_page_widget.dart';
 import 'package:provider/provider.dart';
 
 class ChiTietQuanAnWidget extends StatefulWidget {
@@ -11,7 +10,6 @@ class ChiTietQuanAnWidget extends StatefulWidget {
 }
 
 class _ChiTietQuanAnWidgetState extends State<ChiTietQuanAnWidget> {
-  String id = '01';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,12 +41,8 @@ class _ChiTietQuanAnWidgetState extends State<ChiTietQuanAnWidget> {
                             shape: const CircleBorder(),
                             primary: Colors.black38,
                           ),
-                          onPressed: () {
-                            isLike.like();
-                          },
-                          child: isLike.isLiked
-                              ? Icon(Icons.favorite)
-                              : Icon(Icons.favorite_border),
+                          onPressed: () {},
+                          child: Icon(Icons.favorite_border),
                         );
                       }),
                     )

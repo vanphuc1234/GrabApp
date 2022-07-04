@@ -11,7 +11,7 @@ class ChiTietMonAn extends ChangeNotifier {
   double? rating;
   String? foodType;
   int? maKm;
-  bool isLiked = false;
+  bool? isLiked = false;
 
   void like() {
     this.isLiked = true;

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grab_app/products_list_bar_widget.dart';
-import 'package:provider/provider.dart';
+
 import 'products_header_widget.dart';
 import 'mon_an_widget.dart';
 import 'mon_an_construct.dart';
 import 'mon_an_data.dart';
 
-List<Consumer> buildMenuMonAn() {
-  List<Consumer> ListMonAnWidget = [];
+List<MonAnWidget> buildMenuQuanAn() {
+  List<MonAnWidget> ListQuanAnWidget = [];
   List<ChiTietMonAn> data = dataMenu();
 
   for (var i = 0; i < data.length; i++) {
-    var chiTietMonAn = data[i];
+    var chiTietQuanAn = data[i];
 
-    var newMonAnWidget =
-        Consumer<ChiTietMonAn>(builder: (context, model, child) {
-      print("Mon an: ${model.shopName}, ${model.isLiked}");
-      return MonAnWidget(chiTietMonAn);
-    });
+    var newQuanAnWidget = MonAnWidget(chiTietQuanAn);
+    //     Consumer<ChiTietQuanAn>(builder: (context, model, child) {
+    //   print("Mon an: ${model.shopName}, ${model.isLiked}");
+    //   return QuanAnWidget(chiTietQuanAn);
+    // });
 
-    ListMonAnWidget.add(newMonAnWidget);
+    ListQuanAnWidget.add(newQuanAnWidget);
   }
-  return ListMonAnWidget;
+  return ListQuanAnWidget;
 }
 
 class ProductsPageWidget extends StatefulWidget {
@@ -48,7 +48,7 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget> {
             Expanded(
                 child: ListView(
               shrinkWrap: true,
-              children: buildMenuMonAn(),
+              children: buildMenuQuanAn(),
             )),
           ],
         ),

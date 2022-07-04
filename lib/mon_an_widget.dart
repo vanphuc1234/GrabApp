@@ -28,10 +28,10 @@ class _MonAnWidgetState extends State<MonAnWidget> {
       //TODO: Navigator to ChiTietQuanAnWidget
       child: TextButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ChiTietQuanAnWidget()));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const ChiTietQuanAnWidget()));
           },
           child: Row(
             children: [
@@ -139,16 +139,8 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                 ),
-                onPressed: () {
-                  if (widget.chiTietMonAn.isLiked) {
-                    widget.chiTietMonAn.unlike();
-                  } else {
-                    widget.chiTietMonAn.like();
-                  }
-                },
-                child: widget.chiTietMonAn.isLiked
-                    ? Icon(Icons.favorite)
-                    : Icon(Icons.favorite_border),
+                onPressed: () {},
+                child: Icon(Icons.favorite_border),
               )
             ],
           )),

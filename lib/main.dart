@@ -1,13 +1,17 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:flutter_grab_app/mon_an_construct.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_grab_app/favorite_cubit.dart';
+
+import 'package:bloc/bloc.dart';
+
 import 'products_page_widget.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (_) => ChiTietMonAn(), child: const MyApp()));
+  BlocOverrides.runZoned(
+    () => runApp(const MyApp()),
+    blocObserver: FavoriteObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
