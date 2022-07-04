@@ -5,16 +5,11 @@ import 'products_page_widget.dart';
 import 'mon_an_construct.dart';
 
 // ignore: must_be_immutable
-class MonAnWidget extends StatefulWidget {
+class MonAnWidget extends StatelessWidget {
   ChiTietMonAn chiTietMonAn;
 
   MonAnWidget(this.chiTietMonAn, {Key? key}) : super(key: key);
 
-  @override
-  State<MonAnWidget> createState() => _MonAnWidgetState();
-}
-
-class _MonAnWidgetState extends State<MonAnWidget> {
   double heightText = 1.4;
 
   @override
@@ -40,7 +35,7 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                 width: 120,
                 height: 100,
                 child: Image(
-                  image: AssetImage(widget.chiTietMonAn.imageLink.toString()),
+                  image: AssetImage(chiTietMonAn.imageLink.toString()),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -52,7 +47,7 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //Text Khuyen Mai
-                    Text(widget.chiTietMonAn.isKhuyenMai! ? 'KHUYẾN MÃI' : '',
+                    Text(chiTietMonAn.isKhuyenMai! ? 'KHUYẾN MÃI' : '',
                         softWrap: true,
                         // ignore: prefer_const_constructors
                         style: TextStyle(
@@ -60,11 +55,11 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                           color: const Color.fromARGB(255, 255, 123, 7),
                           fontWeight: FontWeight.w700,
                           overflow: TextOverflow.visible,
-                          height: widget.chiTietMonAn.isKhuyenMai! ? 1 : 0,
+                          height: chiTietMonAn.isKhuyenMai! ? 1 : 0,
                         )),
                     Text(
                       //SHOP NAME
-                      widget.chiTietMonAn.shopName.toString(), maxLines: 1,
+                      chiTietMonAn.shopName.toString(), maxLines: 1,
                       softWrap: true,
                       style: TextStyle(
                           height: heightText,
@@ -78,7 +73,7 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                       children: [
                         Text(
                           //DISTANCE
-                          '${widget.chiTietMonAn.timeDistance} - ${widget.chiTietMonAn.distance} - ',
+                          '${chiTietMonAn.timeDistance} - ${chiTietMonAn.distance} - ',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -94,7 +89,7 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                           color: Colors.amber,
                         ),
                         Text(
-                          widget.chiTietMonAn.rating.toString(),
+                          chiTietMonAn.rating.toString(),
                           // ignore: prefer_const_constructors
                           style: TextStyle(
                             fontSize: 13,
@@ -107,9 +102,9 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                     ),
                     //Food Type
                     Text(
-                      widget.chiTietMonAn.isKhuyenMai!
-                          ? '${widget.chiTietMonAn.foodType.toString()}\n'
-                          : widget.chiTietMonAn.foodType.toString(),
+                      chiTietMonAn.isKhuyenMai!
+                          ? '${chiTietMonAn.foodType.toString()}\n'
+                          : chiTietMonAn.foodType.toString(),
                       // ignore: prefer_const_constructors
                       style: TextStyle(
                         fontSize: 13,
@@ -119,14 +114,13 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                       ),
                     ),
                     Text(
-                        widget.chiTietMonAn.isKhuyenMai!
-                            ? KhuyenMai.maKhuyenMai[widget.chiTietMonAn.maKm!]
+                        chiTietMonAn.isKhuyenMai!
+                            ? KhuyenMai.maKhuyenMai[chiTietMonAn.maKm!]
                                 .toString()
                             : '',
                         // ignore: prefer_const_constructors
                         style: TextStyle(
-                          height:
-                              widget.chiTietMonAn.isKhuyenMai! ? heightText : 0,
+                          height: chiTietMonAn.isKhuyenMai! ? heightText : 0,
                           letterSpacing: 0.5,
                           backgroundColor:
                               const Color.fromARGB(255, 250, 239, 217),
@@ -143,7 +137,10 @@ class _MonAnWidgetState extends State<MonAnWidget> {
                   shape: const CircleBorder(),
                 ),
                 onPressed: () {},
-                child: Icon(Icons.favorite_border),
+                child: Icon(
+                  Icons.favorite_border,
+                  color: Colors.black54,
+                ),
               )
             ],
           )),

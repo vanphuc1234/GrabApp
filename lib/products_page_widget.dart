@@ -8,12 +8,10 @@ import 'mon_an_widget.dart';
 import 'mon_an_construct.dart';
 import 'mon_an_data.dart';
 
-List<MonAnWidget> buildMenuQuanAn() {
-  List<MonAnWidget> ListQuanAnWidget = [];
-  List<ChiTietMonAn> data = dataMenu();
-
-  for (var i = 0; i < data.length; i++) {
-    var chiTietQuanAn = data[i];
+List<MonAnWidget> buildMenuQuanAn(List<ChiTietMonAn> cuaHangList) {
+  List<MonAnWidget> quanAnWidgetList = [];
+  for (var i = 0; i < cuaHangList.length; i++) {
+    var chiTietQuanAn = cuaHangList[i];
 
     var newQuanAnWidget = MonAnWidget(chiTietQuanAn);
     //     Consumer<ChiTietQuanAn>(builder: (context, model, child) {
@@ -21,21 +19,16 @@ List<MonAnWidget> buildMenuQuanAn() {
     //   return QuanAnWidget(chiTietQuanAn);
     // });
 
-    ListQuanAnWidget.add(newQuanAnWidget);
+    quanAnWidgetList.add(newQuanAnWidget);
   }
-  return ListQuanAnWidget;
+  return quanAnWidgetList;
 }
 
-class ProductsPageWidget extends StatefulWidget {
+class ProductsPageWidget extends StatelessWidget {
   const ProductsPageWidget({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
-  @override
-  State<ProductsPageWidget> createState() => _ProductsPageWidgetState();
-}
-
-class _ProductsPageWidgetState extends State<ProductsPageWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,13 +43,14 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget> {
               const ProductListBarWidget(),
               //MainContent
               Expanded(
-                  child: ListView(
-                      shrinkWrap: true,
-                      children: BlocBuilder<MonAnCubit, List<MonAnWidget>>(
-                        builder: (context, state) {
-                          return state;
-                        },
-                      ))),
+                child: BlocBuilder<MonAnCubit, List<ChiTietMonAn>>(
+                  builder: (context, state) {
+                    return ListView(
+                      children: buildMenuQuanAn(state),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
