@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:flutter/material.dart';
-import 'mon_an_construct.dart';
+import 'cua_hang_construct.dart';
 
 // ignore: non_constant_identifier_names
-List<ChiTietMonAn> dataMenu() {
-  List<ChiTietMonAn> menu = [
-    ChiTietMonAn(
+List<ChiTietCuaHang> dataMenu() {
+  List<ChiTietCuaHang> menu = [
+    ChiTietCuaHang(
       id: '01',
       isKhuyenMai: true,
       imageLink: 'assets/food1.png',
@@ -16,7 +16,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'Ăn vặt',
       maKm: 1,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '02',
       isKhuyenMai: false,
       imageLink: 'assets/food2.png',
@@ -27,7 +27,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'Bún - Phở - Cháo',
       maKm: 3,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '03',
       isKhuyenMai: false,
       imageLink: 'assets/food3.jpg',
@@ -38,7 +38,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'Ăn Vặt',
       maKm: 5,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '04',
       isKhuyenMai: true,
       imageLink: 'assets/food4.jpg',
@@ -49,7 +49,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 1,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '05',
       isKhuyenMai: false,
       imageLink: 'assets/food5.jpg',
@@ -60,7 +60,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
@@ -71,7 +71,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
@@ -82,7 +82,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
@@ -93,7 +93,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
@@ -104,7 +104,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
@@ -115,7 +115,7 @@ List<ChiTietMonAn> dataMenu() {
       foodType: 'An vat',
       maKm: 2,
     ),
-    ChiTietMonAn(
+    ChiTietCuaHang(
       id: '06',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',

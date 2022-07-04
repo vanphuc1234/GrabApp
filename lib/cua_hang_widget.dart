@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'chi_tiet_quan_an_page_widget.dart';
 import 'products_page_widget.dart';
-import 'mon_an_construct.dart';
+import 'cua_hang_construct.dart';
 
 // ignore: must_be_immutable
-class MonAnWidget extends StatelessWidget {
-  ChiTietMonAn chiTietMonAn;
+class CuaHangWidget extends StatelessWidget {
+  ChiTietCuaHang chiTietCuaHang;
 
-  MonAnWidget(this.chiTietMonAn, {Key? key}) : super(key: key);
+  CuaHangWidget(this.chiTietCuaHang, {Key? key}) : super(key: key);
 
   double heightText = 1.4;
 
@@ -35,7 +35,7 @@ class MonAnWidget extends StatelessWidget {
                 width: 120,
                 height: 100,
                 child: Image(
-                  image: AssetImage(chiTietMonAn.imageLink.toString()),
+                  image: AssetImage(chiTietCuaHang.imageLink.toString()),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -47,7 +47,7 @@ class MonAnWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //Text Khuyen Mai
-                    Text(chiTietMonAn.isKhuyenMai! ? 'KHUYẾN MÃI' : '',
+                    Text(chiTietCuaHang.isKhuyenMai! ? 'KHUYẾN MÃI' : '',
                         softWrap: true,
                         // ignore: prefer_const_constructors
                         style: TextStyle(
@@ -55,11 +55,11 @@ class MonAnWidget extends StatelessWidget {
                           color: const Color.fromARGB(255, 255, 123, 7),
                           fontWeight: FontWeight.w700,
                           overflow: TextOverflow.visible,
-                          height: chiTietMonAn.isKhuyenMai! ? 1 : 0,
+                          height: chiTietCuaHang.isKhuyenMai! ? 1 : 0,
                         )),
                     Text(
                       //SHOP NAME
-                      chiTietMonAn.shopName.toString(), maxLines: 1,
+                      chiTietCuaHang.shopName.toString(), maxLines: 1,
                       softWrap: true,
                       style: TextStyle(
                           height: heightText,
@@ -73,7 +73,7 @@ class MonAnWidget extends StatelessWidget {
                       children: [
                         Text(
                           //DISTANCE
-                          '${chiTietMonAn.timeDistance} - ${chiTietMonAn.distance} - ',
+                          '${chiTietCuaHang.timeDistance} - ${chiTietCuaHang.distance} - ',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class MonAnWidget extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         Text(
-                          chiTietMonAn.rating.toString(),
+                          chiTietCuaHang.rating.toString(),
                           // ignore: prefer_const_constructors
                           style: TextStyle(
                             fontSize: 13,
@@ -102,9 +102,9 @@ class MonAnWidget extends StatelessWidget {
                     ),
                     //Food Type
                     Text(
-                      chiTietMonAn.isKhuyenMai!
-                          ? '${chiTietMonAn.foodType.toString()}\n'
-                          : chiTietMonAn.foodType.toString(),
+                      chiTietCuaHang.isKhuyenMai!
+                          ? '${chiTietCuaHang.foodType.toString()}\n'
+                          : chiTietCuaHang.foodType.toString(),
                       // ignore: prefer_const_constructors
                       style: TextStyle(
                         fontSize: 13,
@@ -114,13 +114,13 @@ class MonAnWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                        chiTietMonAn.isKhuyenMai!
-                            ? KhuyenMai.maKhuyenMai[chiTietMonAn.maKm!]
+                        chiTietCuaHang.isKhuyenMai!
+                            ? KhuyenMai.maKhuyenMai[chiTietCuaHang.maKm!]
                                 .toString()
                             : '',
                         // ignore: prefer_const_constructors
                         style: TextStyle(
-                          height: chiTietMonAn.isKhuyenMai! ? heightText : 0,
+                          height: chiTietCuaHang.isKhuyenMai! ? heightText : 0,
                           letterSpacing: 0.5,
                           backgroundColor:
                               const Color.fromARGB(255, 250, 239, 217),

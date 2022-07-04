@@ -4,16 +4,16 @@ import 'package:flutter_grab_app/favorite_cubit.dart';
 import 'package:flutter_grab_app/products_list_bar_widget.dart';
 
 import 'products_header_widget.dart';
-import 'mon_an_widget.dart';
-import 'mon_an_construct.dart';
-import 'mon_an_data.dart';
+import 'cua_hang_widget.dart';
+import 'cua_hang_construct.dart';
+import 'cua_hang_data.dart';
 
-List<MonAnWidget> buildMenuQuanAn(List<ChiTietMonAn> cuaHangList) {
-  List<MonAnWidget> quanAnWidgetList = [];
+List<CuaHangWidget> buildMenuQuanAn(List<ChiTietCuaHang> cuaHangList) {
+  List<CuaHangWidget> quanAnWidgetList = [];
   for (var i = 0; i < cuaHangList.length; i++) {
     var chiTietQuanAn = cuaHangList[i];
 
-    var newQuanAnWidget = MonAnWidget(chiTietQuanAn);
+    var newQuanAnWidget = CuaHangWidget(chiTietQuanAn);
     //     Consumer<ChiTietQuanAn>(builder: (context, model, child) {
     //   print("Mon an: ${model.shopName}, ${model.isLiked}");
     //   return QuanAnWidget(chiTietQuanAn);
@@ -32,7 +32,7 @@ class ProductsPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MonAnCubit(),
+      create: (_) => CuaHangCubit(),
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -43,7 +43,7 @@ class ProductsPageWidget extends StatelessWidget {
               const ProductListBarWidget(),
               //MainContent
               Expanded(
-                child: BlocBuilder<MonAnCubit, List<ChiTietMonAn>>(
+                child: BlocBuilder<CuaHangCubit, List<ChiTietCuaHang>>(
                   builder: (context, state) {
                     return ListView(
                       children: buildMenuQuanAn(state),

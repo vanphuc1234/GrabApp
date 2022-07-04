@@ -10,7 +10,7 @@ import 'products_page_widget.dart';
 void main() {
   BlocOverrides.runZoned(
     () => runApp(const MyApp()),
-    blocObserver: MonAnObserver(),
+    blocObserver: CuaHangObserver(),
   );
 }
 
