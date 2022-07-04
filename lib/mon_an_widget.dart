@@ -36,10 +36,13 @@ class _MonAnWidgetState extends State<MonAnWidget> {
           child: Row(
             children: [
               // Image Preview
-              Image(
-                image: AssetImage(widget.chiTietMonAn.imageLink.toString()),
+              SizedBox(
                 width: 120,
-                fit: BoxFit.cover,
+                height: 100,
+                child: Image(
+                  image: AssetImage(widget.chiTietMonAn.imageLink.toString()),
+                  fit: BoxFit.cover,
+                ),
               ),
               Expanded(
                   child: Padding(

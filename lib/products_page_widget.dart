@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_grab_app/favorite_cubit.dart';
 import 'package:flutter_grab_app/products_list_bar_widget.dart';
 
 import 'products_header_widget.dart';
@@ -36,30 +38,36 @@ class ProductsPageWidget extends StatefulWidget {
 class _ProductsPageWidgetState extends State<ProductsPageWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            //header
-            const ProductHeaderWidget(),
-            //MenuBar
-            const ProductListBarWidget(),
-            //MainContent
-            Expanded(
-                child: ListView(
-              shrinkWrap: true,
-              children: buildMenuQuanAn(),
-            )),
-          ],
+    return BlocProvider(
+      create: (_) => MonAnCubit(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              //header
+              const ProductHeaderWidget(),
+              //MenuBar
+              const ProductListBarWidget(),
+              //MainContent
+              Expanded(
+                  child: ListView(
+                      shrinkWrap: true,
+                      children: BlocBuilder<MonAnCubit, List<MonAnWidget>>(
+                        builder: (context, state) {
+                          return state;
+                        },
+                      ))),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-        child: IconButton(
-          icon: const Icon(Icons.shopping_bag_outlined,
-              size: 30, color: Colors.black),
+        floatingActionButton: FloatingActionButton(
           onPressed: () {},
+          shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+          child: IconButton(
+            icon: const Icon(Icons.shopping_bag_outlined,
+                size: 30, color: Colors.black),
+            onPressed: () {},
+          ),
         ),
       ),
     );
