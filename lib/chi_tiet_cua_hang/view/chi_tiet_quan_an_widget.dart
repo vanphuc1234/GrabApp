@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_grab_app/cua_hang_construct.dart';
+import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
 import 'package:provider/provider.dart';
 
 class ChiTietQuanAnWidget extends StatefulWidget {

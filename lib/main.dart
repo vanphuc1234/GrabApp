@@ -1,11 +1,11 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:flutter_grab_app/favorite_cubit.dart';
+import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.dart';
 
 import 'package:bloc/bloc.dart';
 
-import 'products_page_widget.dart';
+import 'cua_hang_gan_toi/view/cua_hang_gan_toi_list_widget.dart';
 
 void main() {
   BlocOverrides.runZoned(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
       ),
-      home: const ProductsPageWidget(title: 'Grab Food Demo'),
+      home: const CuaHangGanToiWidget(title: 'Grab Food Demo'),
     );
   }
 }

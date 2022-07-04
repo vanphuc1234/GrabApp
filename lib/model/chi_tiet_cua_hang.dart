@@ -1,7 +1,7 @@
 // ignore: unused_import
 import 'package:flutter/material.dart';
 
-class ChiTietCuaHang extends ChangeNotifier {
+class ChiTietCuaHang {
   String? id;
   bool? isKhuyenMai;
   String? imageLink;
@@ -11,17 +11,7 @@ class ChiTietCuaHang extends ChangeNotifier {
   double? rating;
   String? foodType;
   int? maKm;
-  bool? isLiked = false;
-
-  void like() {
-    this.isLiked = true;
-    notifyListeners();
-  }
-
-  void unlike() {
-    this.isLiked = false;
-    notifyListeners();
-  }
+  bool isLiked = false;
 
   ChiTietCuaHang({
     this.id,

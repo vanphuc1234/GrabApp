@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_grab_app/favorite_cubit.dart';
-import 'package:flutter_grab_app/products_list_bar_widget.dart';
+import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.dart';
 
-import 'products_header_widget.dart';
+import '../../views/products_header_widget.dart';
+import '../../views/products_list_bar_widget.dart';
 import 'cua_hang_widget.dart';
-import 'cua_hang_construct.dart';
-import 'cua_hang_data.dart';
+import '../../model/chi_tiet_cua_hang.dart';
 
 List<CuaHangWidget> buildMenuQuanAn(List<ChiTietCuaHang> cuaHangList) {
   List<CuaHangWidget> quanAnWidgetList = [];
@@ -14,25 +13,20 @@ List<CuaHangWidget> buildMenuQuanAn(List<ChiTietCuaHang> cuaHangList) {
     var chiTietQuanAn = cuaHangList[i];
 
     var newQuanAnWidget = CuaHangWidget(chiTietQuanAn);
-    //     Consumer<ChiTietQuanAn>(builder: (context, model, child) {
-    //   print("Mon an: ${model.shopName}, ${model.isLiked}");
-    //   return QuanAnWidget(chiTietQuanAn);
-    // });
-
     quanAnWidgetList.add(newQuanAnWidget);
   }
   return quanAnWidgetList;
 }
 
-class ProductsPageWidget extends StatelessWidget {
-  const ProductsPageWidget({Key? key, required this.title}) : super(key: key);
+class CuaHangGanToiWidget extends StatelessWidget {
+  const CuaHangGanToiWidget({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CuaHangCubit(),
+      create: (_) => CuaHangGanToiCubit(),
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -43,7 +37,7 @@ class ProductsPageWidget extends StatelessWidget {
               const ProductListBarWidget(),
               //MainContent
               Expanded(
-                child: BlocBuilder<CuaHangCubit, List<ChiTietCuaHang>>(
+                child: BlocBuilder<CuaHangGanToiCubit, List<ChiTietCuaHang>>(
                   builder: (context, state) {
                     return ListView(
                       children: buildMenuQuanAn(state),

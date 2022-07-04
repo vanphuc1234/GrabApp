@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'chi_tiet_quan_an_page_widget.dart';
-import 'products_page_widget.dart';
-import 'cua_hang_construct.dart';
+import '../cubit/cua_hang_gan_toi_cubit.dart';
+import 'cua_hang_gan_toi_list_widget.dart';
+import '../../model/chi_tiet_cua_hang.dart';
 
 // ignore: must_be_immutable
 class CuaHangWidget extends StatelessWidget {
@@ -136,11 +136,18 @@ class CuaHangWidget extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                 ),
-                onPressed: () {},
-                child: Icon(
-                  Icons.favorite_border,
-                  color: Colors.black54,
-                ),
+                onPressed: () {
+                  print("Pressed ${chiTietCuaHang.id}");
+                  context
+                      .read<CuaHangGanToiCubit>()
+                      .toogleLike(chiTietCuaHang.id);
+                },
+                child: chiTietCuaHang.isLiked
+                    ? Icon(Icons.favorite)
+                    : Icon(
+                        Icons.favorite_border,
+                        color: Colors.black54,
+                      ),
               )
             ],
           )),

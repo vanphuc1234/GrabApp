@@ -1,6 +1,6 @@
 // ignore: unused_import
 import 'package:flutter/material.dart';
-import 'cua_hang_construct.dart';
+import '../model/chi_tiet_cua_hang.dart';
 
 // ignore: non_constant_identifier_names
 List<ChiTietCuaHang> dataMenu() {
@@ -72,7 +72,7 @@ List<ChiTietCuaHang> dataMenu() {
       maKm: 2,
     ),
     ChiTietCuaHang(
-      id: '06',
+      id: '07',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
       shopName: 'Banh trang Merlion',
@@ -83,7 +83,7 @@ List<ChiTietCuaHang> dataMenu() {
       maKm: 2,
     ),
     ChiTietCuaHang(
-      id: '06',
+      id: '08',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
       shopName: 'Banh trang Merlion',
@@ -94,7 +94,7 @@ List<ChiTietCuaHang> dataMenu() {
       maKm: 2,
     ),
     ChiTietCuaHang(
-      id: '06',
+      id: '09',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
       shopName: 'Banh trang Merlion',
@@ -105,7 +105,7 @@ List<ChiTietCuaHang> dataMenu() {
       maKm: 2,
     ),
     ChiTietCuaHang(
-      id: '06',
+      id: '10',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
       shopName: 'Banh trang Merlion',
@@ -116,7 +116,7 @@ List<ChiTietCuaHang> dataMenu() {
       maKm: 2,
     ),
     ChiTietCuaHang(
-      id: '06',
+      id: '11',
       isKhuyenMai: true,
       imageLink: 'assets/food5.jpg',
       shopName: 'Banh trang Merlion',
