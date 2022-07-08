@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/view/cua_hang_widget.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/view/cua_hang_gan_toi_list_widget.dart';
@@ -21,5 +20,61 @@ class CuaHangGanToiCubit extends Cubit<List<ChiTietCuaHang>> {
     var shop = state.firstWhere((item) => item.id == shopId);
     shop.isLiked = !shop.isLiked;
     emit([...state]);
+  }
+}
+
+//---------------------------------------------------------------------Bloc
+abstract class CuaHangGanToiEvent {}
+
+class LoadEvent extends CuaHangGanToiEvent {}
+
+class PullToRefreshEvent extends CuaHangGanToiEvent {}
+
+class FavoriteEvent extends CuaHangGanToiEvent {}
+
+abstract class CuaHangGanToiState {}
+
+class FavoriteState extends CuaHangGanToiState {
+  List<ChiTietCuaHang>? chiTietCuaHang;
+  FavoriteState({this.chiTietCuaHang});
+}
+
+class LoadingState extends CuaHangGanToiState {}
+
+class LoadedState extends CuaHangGanToiState {
+  List<CuaHangWidget>? cuaHangWidget;
+  LoadedState({this.cuaHangWidget});
+}
+
+class FailedToLoadState extends CuaHangGanToiState {
+  Error? error;
+  FailedToLoadState({this.error});
+}
+
+class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
+  CuaHangGanToiBloc() : super(LoadingState()) {
+    on<LoadEvent>(_onLoadEvent);
+    on<PullToRefreshEvent>(_onLoadEvent);
+    on<FavoriteEvent>(_onFavoriteEvent);
+  }
+
+  void _onLoadEvent(event, Emitter<CuaHangGanToiState> emit) async {
+    emit(LoadingState());
+    try {
+      final data = buildMenuQuanAn(dataMenu());
+      emit(LoadedState(cuaHangWidget: data));
+    } catch (e) {
+      emit(FailedToLoadState(error: e as Error));
+    }
+  }
+
+  void _onFavoriteEvent(
+      FavoriteEvent event, Emitter<CuaHangGanToiState> state) async {
+    List<ChiTietCuaHang> listData = dataMenu();
+    var shopId = ChiTietCuaHang().id;
+
+    var shop = listData.firstWhere((item) => item.id == shopId);
+    shop.isLiked = !shop.isLiked;
+    emit(FavoriteState(chiTietCuaHang: dataMenu()));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.dart';
+import 'package:flutter_grab_app/data/cua_hang_data.dart';
 
 import '../../views/products_header_widget.dart';
 import '../../views/products_list_bar_widget.dart';
@@ -26,7 +27,7 @@ class CuaHangGanToiWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CuaHangGanToiCubit(),
+      create: (_) => CuaHangGanToiBloc()..add(LoadEvent()),
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -37,11 +38,27 @@ class CuaHangGanToiWidget extends StatelessWidget {
               const ProductListBarWidget(),
               //MainContent
               Expanded(
-                child: BlocBuilder<CuaHangGanToiCubit, List<ChiTietCuaHang>>(
+                child: BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
                   builder: (context, state) {
-                    return ListView(
-                      children: buildMenuQuanAn(state),
-                    );
+                    if (state is LoadingState) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is LoadedState) {
+                      return RefreshIndicator(
+                        onRefresh: () async =>
+                            BlocProvider.of<CuaHangGanToiBloc>(context)
+                                .add(PullToRefreshEvent()),
+                        child: ListView(
+                          children: buildMenuQuanAn(dataMenu()),
+                        ),
+                      );
+                    } else if (state is FailedToLoadState) {
+                      return Center(
+                        child: Text('Error occured: ${state.error}'),
+                      );
+                    }
+                    return Container();
                   },
                 ),
               )
