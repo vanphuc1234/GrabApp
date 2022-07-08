@@ -10,8 +10,8 @@ import '../../model/chi_tiet_cua_hang.dart';
 
 List<CuaHangWidget> buildMenuQuanAn(List<ChiTietCuaHang> cuaHangList) {
   List<CuaHangWidget> quanAnWidgetList = [];
-  for (var i = 0; i < cuaHangList.length; i++) {
-    var chiTietQuanAn = cuaHangList[i];
+  for (var i in cuaHangList) {
+    var chiTietQuanAn = i;
 
     var newQuanAnWidget = CuaHangWidget(chiTietQuanAn);
     quanAnWidgetList.add(newQuanAnWidget);
@@ -50,7 +50,7 @@ class CuaHangGanToiWidget extends StatelessWidget {
                             BlocProvider.of<CuaHangGanToiBloc>(context)
                                 .add(PullToRefreshEvent()),
                         child: ListView(
-                          children: buildMenuQuanAn(dataMenu()),
+                          children: state.cuaHangWidget as List<Widget>,
                         ),
                       );
                     } else if (state is FailedToLoadState) {
