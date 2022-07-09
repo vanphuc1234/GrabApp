@@ -30,14 +30,14 @@ class LoadEvent extends CuaHangGanToiEvent {}
 
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
-class FavoriteEvent extends CuaHangGanToiEvent {
-  ChiTietCuaHang? chiTietCuaHang;
-  FavoriteEvent({this.chiTietCuaHang});
-}
+class FavoriteEvent extends CuaHangGanToiEvent {}
 
 abstract class CuaHangGanToiState {}
 
-class FavoriteState extends CuaHangGanToiState {}
+class FavoriteState extends CuaHangGanToiState {
+  ChiTietCuaHang? chiTietCuaHang;
+  FavoriteState({this.chiTietCuaHang});
+}
 
 class LoadingState extends CuaHangGanToiState {}
 
@@ -68,11 +68,12 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     }
   }
 
-  void _onFavoriteEvent(event, emit) async {
+  void _onFavoriteEvent(
+      FavoriteEvent event, Emitter<CuaHangGanToiState> emit) async {
     List<ChiTietCuaHang> listData = dataMenu();
 
     var shop = listData.firstWhere((item) {
-      return item.id == FavoriteEvent().chiTietCuaHang?.id;
+      return item.id == FavoriteState().chiTietCuaHang?.id;
     });
     shop.isLiked = !shop.isLiked;
     emit(FavoriteState());

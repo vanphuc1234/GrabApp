@@ -139,9 +139,9 @@ class CuaHangWidget extends StatelessWidget {
                   shape: const CircleBorder(),
                 ),
                 onPressed: () {
-                  BlocProvider.of<CuaHangGanToiBloc>(context)
-                      .add(FavoriteEvent(chiTietCuaHang: ChiTietCuaHang()));
-                  print("Pressed ${chiTietCuaHang.id}");
+                  context.read<CuaHangGanToiBloc>().add(FavoriteEvent());
+                  // print("Pressed ${chiTietCuaHang.id}");
+
                   // BlocProvider.of<CuaHangGanToiCubit>(context)
                   //     .toogleLike(chiTietCuaHang.id);
                 },

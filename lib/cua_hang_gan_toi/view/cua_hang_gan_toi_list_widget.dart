@@ -46,9 +46,9 @@ class CuaHangGanToiWidget extends StatelessWidget {
                       );
                     } else if (state is LoadedState) {
                       return RefreshIndicator(
-                        onRefresh: () async =>
-                            BlocProvider.of<CuaHangGanToiBloc>(context)
-                                .add(PullToRefreshEvent()),
+                        onRefresh: () async => context
+                            .read<CuaHangGanToiBloc>()
+                            .add(PullToRefreshEvent()),
                         child: ListView(
                           children: state.cuaHangWidget as List<Widget>,
                         ),
