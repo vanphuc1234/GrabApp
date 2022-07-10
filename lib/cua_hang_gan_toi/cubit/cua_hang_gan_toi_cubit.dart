@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
-import 'package:flutter_grab_app/cua_hang_gan_toi/view/cua_hang_widget.dart';
-import 'package:flutter_grab_app/cua_hang_gan_toi/view/cua_hang_gan_toi_list_widget.dart';
 
 import '../../data/cua_hang_data.dart';
 
@@ -30,20 +28,28 @@ class LoadEvent extends CuaHangGanToiEvent {}
 
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
-class FavoriteEvent extends CuaHangGanToiEvent {}
+class FavoriteEvent extends CuaHangGanToiEvent {
+  ChiTietCuaHang? chiTietCuaHang;
+  FavoriteEvent({this.chiTietCuaHang});
+}
 
-abstract class CuaHangGanToiState {}
+abstract class CuaHangGanToiState {
+  late final List<ChiTietCuaHang> chiTietCuaHangList;
+
+  CuaHangGanToiState({this.chiTietCuaHangList = const []});
+}
 
 class FavoriteState extends CuaHangGanToiState {
-  ChiTietCuaHang? chiTietCuaHang;
-  FavoriteState({this.chiTietCuaHang});
+  final ChiTietCuaHang chiTietCuaHang;
+
+  FavoriteState({required this.chiTietCuaHang});
 }
 
 class LoadingState extends CuaHangGanToiState {}
 
 class LoadedState extends CuaHangGanToiState {
-  List<CuaHangWidget>? cuaHangWidget;
-  LoadedState({this.cuaHangWidget});
+  List<ChiTietCuaHang> chiTietCuaHangList;
+  LoadedState({required this.chiTietCuaHangList});
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
@@ -61,21 +67,19 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
   void _onLoadEvent(event, Emitter<CuaHangGanToiState> emit) async {
     emit(LoadingState());
     try {
-      final data = buildMenuQuanAn(dataMenu());
-      emit(LoadedState(cuaHangWidget: data));
+      final data = dataMenu();
+      emit(LoadedState(chiTietCuaHangList: data));
     } catch (e) {
       emit(FailedToLoadState(error: e as Error));
     }
   }
 
-  void _onFavoriteEvent(
-      FavoriteEvent event, Emitter<CuaHangGanToiState> emit) async {
-    List<ChiTietCuaHang> listData = dataMenu();
-
-    var shop = listData.firstWhere((item) {
-      return item.id == FavoriteState().chiTietCuaHang?.id;
+  void _onFavoriteEvent(event, emit) async {
+    var shop = state.chiTietCuaHangList.firstWhere((item) {
+      return item.id == event.chiTietCuaHang.id;
     });
+    print('Found shop: ${shop.shopName}');
     shop.isLiked = !shop.isLiked;
-    emit(FavoriteState());
+    emit(LoadedState(chiTietCuaHangList: state.chiTietCuaHangList));
   }
 }

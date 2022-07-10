@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_grab_app/data/cua_hang_data.dart';
-import 'package:provider/provider.dart';
 import '../cubit/cua_hang_gan_toi_cubit.dart';
 import 'cua_hang_gan_toi_list_widget.dart';
 import '../../model/chi_tiet_cua_hang.dart';
@@ -139,9 +137,9 @@ class CuaHangWidget extends StatelessWidget {
                   shape: const CircleBorder(),
                 ),
                 onPressed: () {
-                  context.read<CuaHangGanToiBloc>().add(FavoriteEvent());
-                  // print("Pressed ${chiTietCuaHang.id}");
-
+                  BlocProvider.of<CuaHangGanToiBloc>(context)
+                      .add(FavoriteEvent(chiTietCuaHang: chiTietCuaHang));
+                  print("Pressed ${chiTietCuaHang.id}");
                   // BlocProvider.of<CuaHangGanToiCubit>(context)
                   //     .toogleLike(chiTietCuaHang.id);
                 },

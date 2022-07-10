@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.dart';
-import 'package:flutter_grab_app/data/cua_hang_data.dart';
 
 import '../../views/products_header_widget.dart';
 import '../../views/products_list_bar_widget.dart';
@@ -46,13 +45,15 @@ class CuaHangGanToiWidget extends StatelessWidget {
                       );
                     } else if (state is LoadedState) {
                       return RefreshIndicator(
-                        onRefresh: () async => context
-                            .read<CuaHangGanToiBloc>()
-                            .add(PullToRefreshEvent()),
-                        child: ListView(
-                          children: state.cuaHangWidget as List<Widget>,
-                        ),
-                      );
+                          onRefresh: () async =>
+                              BlocProvider.of<CuaHangGanToiBloc>(context)
+                                  .add(PullToRefreshEvent()),
+                          child: ListView.builder(
+                              itemCount: state.chiTietCuaHangList.length,
+                              itemBuilder: (context, index) {
+                                return CuaHangWidget(
+                                    state.chiTietCuaHangList[index]);
+                              }));
                     } else if (state is FailedToLoadState) {
                       return Center(
                         child: Text('Error occured: ${state.error}'),
