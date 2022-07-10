@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
 
 import '../../data/cua_hang_data.dart';
@@ -7,7 +8,7 @@ class CuaHangObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    print('${bloc.runtimeType} $change');
+    debugPrint('${bloc.runtimeType} $change');
   }
 }
 
@@ -78,7 +79,7 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     var shop = state.chiTietCuaHangList.firstWhere((item) {
       return item.id == event.chiTietCuaHang.id;
     });
-    print('Found shop: ${shop.shopName}');
+    debugPrint('Found shop: ${shop.shopName}');
     shop.isLiked = !shop.isLiked;
     emit(LoadedState(chiTietCuaHangList: state.chiTietCuaHangList));
   }

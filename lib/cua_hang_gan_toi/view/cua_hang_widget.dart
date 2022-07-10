@@ -139,13 +139,13 @@ class CuaHangWidget extends StatelessWidget {
                 onPressed: () {
                   BlocProvider.of<CuaHangGanToiBloc>(context)
                       .add(FavoriteEvent(chiTietCuaHang: chiTietCuaHang));
-                  print("Pressed ${chiTietCuaHang.id}");
+                  debugPrint("Pressed ${chiTietCuaHang.id}");
                   // BlocProvider.of<CuaHangGanToiCubit>(context)
                   //     .toogleLike(chiTietCuaHang.id);
                 },
                 child: chiTietCuaHang.isLiked
-                    ? Icon(Icons.favorite)
-                    : Icon(
+                    ? const Icon(Icons.favorite)
+                    : const Icon(
                         Icons.favorite_border,
                         color: Colors.black54,
                       ),
