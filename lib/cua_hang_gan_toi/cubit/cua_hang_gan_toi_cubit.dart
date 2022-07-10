@@ -34,17 +34,11 @@ class FavoriteEvent extends CuaHangGanToiEvent {
 }
 
 abstract class CuaHangGanToiState {
-  late final List<ChiTietCuaHang> chiTietCuaHangList;
+  final List<ChiTietCuaHang> chiTietCuaHangList;
 
   CuaHangGanToiState({
     this.chiTietCuaHangList = const []
   });
-}
-
-class FavoriteState extends CuaHangGanToiState {
-  final ChiTietCuaHang chiTietCuaHang;
-
-  FavoriteState({required this.chiTietCuaHang});
 }
 
 class LoadingState extends CuaHangGanToiState {}
