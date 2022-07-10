@@ -144,7 +144,10 @@ class CuaHangWidget extends StatelessWidget {
                   //     .toogleLike(chiTietCuaHang.id);
                 },
                 child: chiTietCuaHang.isLiked
-                    ? const Icon(Icons.favorite)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )
                     : const Icon(
                         Icons.favorite_border,
                         color: Colors.black54,
