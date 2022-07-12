@@ -74,7 +74,7 @@ class ChiTietQuanAnWidget extends StatelessWidget {
                                 state.name,
                                 maxLines: 2,
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 30, fontWeight: FontWeight.bold),
                               ),
                               trailing: IconButton(
                                   onPressed: () {},
@@ -240,8 +240,32 @@ class ChiTietQuanAnWidget extends StatelessWidget {
                     ),
                   ]),
                 )
-              : Center(
-                  child: CircularProgressIndicator(),
+              : SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                primary: Colors.black38,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child:
+                                  const Icon(Icons.arrow_back_ios_new_rounded)),
+                        ),
+                      ),
+                      const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
         },
       ),

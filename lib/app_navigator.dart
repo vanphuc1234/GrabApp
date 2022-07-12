@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_grab_app/chi_tiet_cua_hang_cubit.dart';
 
 import 'package:flutter_grab_app/nav_cubit.dart';
 import 'chi_tiet_cua_hang/view/chi_tiet_cua_hang_widget.dart';
@@ -22,6 +23,7 @@ class AppNavigator extends StatelessWidget {
             )
         ],
         onPopPage: (route, result) {
+          BlocProvider.of<ChiTietCuaHangCubit>(context).clearChiTietCuaHang();
           BlocProvider.of<NavCubit>(context).popToListingView();
           return route.didPop(result);
         },
