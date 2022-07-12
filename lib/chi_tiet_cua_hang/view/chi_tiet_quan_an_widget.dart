@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
+import 'package:flutter_grab_app/models/chi_tiet_cua_hang_vm.dart';
+
 import 'package:provider/provider.dart';
 
 class ChiTietQuanAnWidget extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ChiTietQuanAnWidgetState extends State<ChiTietQuanAnWidget> {
                           Navigator.pop(context);
                         },
                         child: const Icon(Icons.arrow_back_ios_new_rounded)),
-                    Consumer<ChiTietCuaHang>(
+                    Consumer<ChiTietCuaHangVm>(
                       builder: ((context, isLike, child) {
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(

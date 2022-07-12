@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_grab_app/model/chi_tiet_cua_hang.dart';
+
+import 'package:flutter_grab_app/repositories/cua_hang_repository.dart';
 
 import '../../data/cua_hang_data.dart';
+import '../../models/cua_hang_listing_vm.dart';
 
 class CuaHangObserver extends BlocObserver {
   @override
@@ -12,15 +14,15 @@ class CuaHangObserver extends BlocObserver {
   }
 }
 
-class CuaHangGanToiCubit extends Cubit<List<ChiTietCuaHang>> {
-  CuaHangGanToiCubit() : super(dataMenu());
+// class CuaHangGanToiCubit extends Cubit<List<CuaHangListingVm>> {
+//   CuaHangGanToiCubit() : super(dataMenu());
 
-  void toogleLike(shopId) {
-    var shop = state.firstWhere((item) => item.id == shopId);
-    shop.isLiked = !shop.isLiked;
-    emit([...state]);
-  }
-}
+//   void toogleLike(shopId) {
+//     var shop = state.firstWhere((item) => item.id == shopId);
+//     shop.isLiked = !shop.isLiked;
+//     emit([...state]);
+//   }
+// }
 
 //---------------------------------------------------------------------Bloc
 abstract class CuaHangGanToiEvent {}
@@ -30,21 +32,20 @@ class LoadEvent extends CuaHangGanToiEvent {}
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
 class FavoriteEvent extends CuaHangGanToiEvent {
-  ChiTietCuaHang? chiTietCuaHang;
-  FavoriteEvent({this.chiTietCuaHang});
+  CuaHangListingVm? cuaHangListingVm;
+  FavoriteEvent({this.cuaHangListingVm});
 }
 
 abstract class CuaHangGanToiState {
-  final List<ChiTietCuaHang> chiTietCuaHangList;
-
-  CuaHangGanToiState({this.chiTietCuaHangList = const []});
+  List<CuaHangListingVm> cuaHangListingVmList = [];
 }
 
 class LoadingState extends CuaHangGanToiState {}
 
 class LoadedState extends CuaHangGanToiState {
-  List<ChiTietCuaHang> chiTietCuaHangList;
-  LoadedState({required this.chiTietCuaHangList});
+  List<CuaHangListingVm> cuaHangListingVmList;
+
+  LoadedState({required this.cuaHangListingVmList});
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
@@ -62,19 +63,19 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
   void _onLoadEvent(event, Emitter<CuaHangGanToiState> emit) async {
     emit(LoadingState());
     try {
-      final data = dataMenu();
-      emit(LoadedState(chiTietCuaHangList: data));
+      final data = await CuaHangRepository().getCuaHangGanToiListing();
+      emit(LoadedState(cuaHangListingVmList: data));
     } catch (e) {
       emit(FailedToLoadState(error: e as Error));
     }
   }
 
   void _onFavoriteEvent(event, emit) async {
-    var shop = state.chiTietCuaHangList.firstWhere((item) {
-      return item.id == event.chiTietCuaHang.id;
+    var shop = state.cuaHangListingVmList.firstWhere((item) {
+      return item.id == event.CuaHangListingVm.id;
     });
-    debugPrint('Found shop: ${shop.shopName}');
-    shop.isLiked = !shop.isLiked;
-    emit(LoadedState(chiTietCuaHangList: state.chiTietCuaHangList));
+    debugPrint('Found shop: ${shop.name}');
+    shop.is_liked = !shop.is_liked;
+    emit(LoadedState(cuaHangListingVmList: state.cuaHangListingVmList));
   }
 }

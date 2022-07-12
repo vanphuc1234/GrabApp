@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../models/cua_hang_listing_vm.dart';
 import '../cubit/cua_hang_gan_toi_cubit.dart';
 import 'cua_hang_gan_toi_list_widget.dart';
-import '../../model/chi_tiet_cua_hang.dart';
 
 // ignore: must_be_immutable
 class CuaHangWidget extends StatelessWidget {
-  ChiTietCuaHang chiTietCuaHang;
+  CuaHangListingVm cuaHangListing;
 
-  CuaHangWidget(this.chiTietCuaHang, {Key? key}) : super(key: key);
+  CuaHangWidget(this.cuaHangListing, {Key? key}) : super(key: key);
 
   double heightText = 1.4;
 
@@ -35,7 +35,7 @@ class CuaHangWidget extends StatelessWidget {
                 width: 120,
                 height: 100,
                 child: Image(
-                  image: AssetImage(chiTietCuaHang.imageLink.toString()),
+                  image: NetworkImage(cuaHangListing.image_url.toString()),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -46,20 +46,9 @@ class CuaHangWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //Text Khuyen Mai
-                    Text(chiTietCuaHang.isKhuyenMai! ? 'KHUYẾN MÃI' : '',
-                        softWrap: true,
-                        // ignore: prefer_const_constructors
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: const Color.fromARGB(255, 255, 123, 7),
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.visible,
-                          height: chiTietCuaHang.isKhuyenMai! ? 1 : 0,
-                        )),
                     Text(
                       //SHOP NAME
-                      chiTietCuaHang.shopName.toString(), maxLines: 1,
+                      cuaHangListing.name.toString(), maxLines: 1,
                       softWrap: true,
                       style: TextStyle(
                           height: heightText,
@@ -72,24 +61,22 @@ class CuaHangWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          //DISTANCE
-                          '${chiTietCuaHang.timeDistance} - ${chiTietCuaHang.distance} - ',
+                          cuaHangListing.rating.toString(),
+                          // ignore: prefer_const_constructors
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
                             height: heightText,
-                            overflow: TextOverflow.visible,
                           ),
                         ),
-                        // ignore: prefer_const_constructors
-                        Icon(
+                        const Icon(
                           Icons.star,
                           size: 15,
                           color: Colors.amber,
                         ),
                         Text(
-                          chiTietCuaHang.rating.toString(),
+                          '(${cuaHangListing.review_count})',
                           // ignore: prefer_const_constructors
                           style: TextStyle(
                             fontSize: 13,
@@ -99,35 +86,7 @@ class CuaHangWidget extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                    //Food Type
-                    Text(
-                      chiTietCuaHang.isKhuyenMai!
-                          ? '${chiTietCuaHang.foodType.toString()}\n'
-                          : chiTietCuaHang.foodType.toString(),
-                      // ignore: prefer_const_constructors
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: heightText,
-                        color: Colors.black54,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(
-                        chiTietCuaHang.isKhuyenMai!
-                            ? KhuyenMai.maKhuyenMai[chiTietCuaHang.maKm!]
-                                .toString()
-                            : '',
-                        // ignore: prefer_const_constructors
-                        style: TextStyle(
-                          height: chiTietCuaHang.isKhuyenMai! ? heightText : 0,
-                          letterSpacing: 0.5,
-                          backgroundColor:
-                              const Color.fromARGB(255, 250, 239, 217),
-                          fontSize: 12,
-                          color: Colors.black54,
-                          overflow: TextOverflow.ellipsis,
-                        )),
+                    )
                   ],
                 ),
               )),
@@ -138,12 +97,12 @@ class CuaHangWidget extends StatelessWidget {
                 ),
                 onPressed: () {
                   BlocProvider.of<CuaHangGanToiBloc>(context)
-                      .add(FavoriteEvent(chiTietCuaHang: chiTietCuaHang));
-                  debugPrint("Pressed ${chiTietCuaHang.id}");
+                      .add(FavoriteEvent(cuaHangListingVm: cuaHangListing));
+                  debugPrint("Pressed ${cuaHangListing.id}");
                   // BlocProvider.of<CuaHangGanToiCubit>(context)
-                  //     .toogleLike(chiTietCuaHang.id);
+                  //     .toogleLike(cuaHangListing.id);
                 },
-                child: chiTietCuaHang.isLiked
+                child: cuaHangListing.is_liked
                     ? const Icon(
                         Icons.favorite,
                         color: Colors.red,

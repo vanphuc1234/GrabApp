@@ -5,7 +5,7 @@ import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.d
 
 import 'package:bloc/bloc.dart';
 
-import 'cua_hang_gan_toi/view/cua_hang_gan_toi_list_widget.dart';
+import 'cua_hang_gan_toi/view_cua_hang_gan_toi/cua_hang_gan_toi_list_widget.dart';
 
 void main() {
   BlocOverrides.runZoned(
