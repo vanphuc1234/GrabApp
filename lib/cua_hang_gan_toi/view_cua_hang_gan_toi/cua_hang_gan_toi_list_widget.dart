@@ -47,14 +47,14 @@ class CuaHangGanToiWidget extends StatelessWidget {
                             BlocProvider.of<CuaHangGanToiBloc>(context)
                                 .add(PullToRefreshEvent()),
                         child: ListView.builder(
-                            itemCount: state.cuaHangListingVmList.length,
+                            itemCount: state.cuaHangList.length,
                             itemBuilder: (context, index) {
                               return CuaHangWidget(
-                                  state.cuaHangListingVmList[index]);
+                                  state.cuaHangList[index]);
                             }));
                   } else if (state is FailedToLoadState) {
                     return Center(
-                      child: Text('Error occured: ${state.error}'),
+                      child: Text('Error occured: ${state.message}'),
                     );
                   }
                   return Container();

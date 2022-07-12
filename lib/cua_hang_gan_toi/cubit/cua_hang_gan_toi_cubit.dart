@@ -31,25 +31,25 @@ class LoadEvent extends CuaHangGanToiEvent {}
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
 class FavoriteEvent extends CuaHangGanToiEvent {
-  CuaHangListingVm? cuaHangListingVm;
-  FavoriteEvent({this.cuaHangListingVm});
+  CuaHangListingVm? cuaHangListing;
+  FavoriteEvent({this.cuaHangListing});
 }
 
 abstract class CuaHangGanToiState {
-  List<CuaHangListingVm> cuaHangListingVmList = [];
+  List<CuaHangListingVm> cuaHangList = [];
 }
 
 class LoadingState extends CuaHangGanToiState {}
 
 class LoadedState extends CuaHangGanToiState {
-  List<CuaHangListingVm> cuaHangListingVmList;
+  List<CuaHangListingVm> cuaHangList;
 
-  LoadedState({required this.cuaHangListingVmList});
+  LoadedState({required this.cuaHangList});
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
-  Error error;
-  FailedToLoadState({required this.error});
+  String message;
+  FailedToLoadState({required this.message});
 }
 
 class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
@@ -64,18 +64,18 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     emit(LoadingState());
     try {
       final data = await _cuaHangRepository.getCuaHangGanToiListing();
-      emit(LoadedState(cuaHangListingVmList: data.cuaHangListingVm));
+      emit(LoadedState(cuaHangList: data.cuaHangListingVm));
     } catch (e) {
-      emit(FailedToLoadState(error: e as Error));
+      emit(FailedToLoadState(message: e.toString()));
     }
   }
 
   void _onFavoriteEvent(event, emit) async {
-    var shop = state.cuaHangListingVmList.firstWhere((item) {
-      return item.id == event.CuaHangListingVm.id;
+    var shop = state.cuaHangList.firstWhere((item) {
+      return item.id == event.cuaHangListing.id;
     });
     debugPrint('Found shop: ${shop.name}');
     shop.is_liked = !shop.is_liked;
-    emit(LoadedState(cuaHangListingVmList: state.cuaHangListingVmList));
+    emit(LoadedState(cuaHangList: state.cuaHangList));
   }
 }

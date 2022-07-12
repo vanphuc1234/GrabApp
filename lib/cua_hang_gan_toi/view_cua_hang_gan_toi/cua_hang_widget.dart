@@ -96,7 +96,7 @@ class CuaHangWidget extends StatelessWidget {
                 ),
                 onPressed: () {
                   BlocProvider.of<CuaHangGanToiBloc>(context)
-                      .add(FavoriteEvent(cuaHangListingVm: cuaHangListing));
+                      .add(FavoriteEvent(cuaHangListing: cuaHangListing));
                   debugPrint("Pressed ${cuaHangListing.id}");
                   // BlocProvider.of<CuaHangGanToiCubit>(context)
                   //     .toogleLike(cuaHangListing.id);
