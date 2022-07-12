@@ -19,61 +19,58 @@ List<CuaHangWidget> buildMenuQuanAn(List<CuaHangListingVm> cuaHangList) {
 }
 
 class CuaHangGanToiWidget extends StatelessWidget {
-  const CuaHangGanToiWidget({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const CuaHangGanToiWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CuaHangGanToiBloc()..add(LoadEvent()),
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              //header
-              const ProductHeaderWidget(),
-              //MenuBar
-              const ProductListBarWidget(),
-              //MainContent
-              Expanded(
-                child: BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
-                  builder: (context, state) {
-                    if (state is LoadingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is CuaHangGanToiState) {
-                      return RefreshIndicator(
-                          onRefresh: () async =>
-                              BlocProvider.of<CuaHangGanToiBloc>(context)
-                                  .add(PullToRefreshEvent()),
-                          child: ListView.builder(
-                              itemCount: state.cuaHangListingVmList.length,
-                              itemBuilder: (context, index) {
-                                return CuaHangWidget(
-                                    state.cuaHangListingVmList[index]);
-                              }));
-                    } else if (state is FailedToLoadState) {
-                      return Center(
-                        child: Text('Error occured: ${state.error}'),
-                      );
-                    }
-                    return Container();
-                  },
-                ),
-              )
-            ],
-          ),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            //header
+            const ProductHeaderWidget(),
+            //MenuBar
+            const ProductListBarWidget(),
+            //MainContent
+            Expanded(
+              child: BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
+                builder: (context, state) {
+                  if (state is LoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is LoadedState) {
+                    return RefreshIndicator(
+                        onRefresh: () async =>
+                            BlocProvider.of<CuaHangGanToiBloc>(context)
+                                .add(PullToRefreshEvent()),
+                        child: ListView.builder(
+                            itemCount: state.cuaHangListingVmList.length,
+                            itemBuilder: (context, index) {
+                              return CuaHangWidget(
+                                  state.cuaHangListingVmList[index]);
+                            }));
+                  } else if (state is FailedToLoadState) {
+                    return Center(
+                      child: Text('Error occured: ${state.error}'),
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            )
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
+        child: IconButton(
+          icon: const Icon(Icons.shopping_bag_outlined,
+              size: 30, color: Colors.black),
           onPressed: () {},
-          shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-          child: IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined,
-                size: 30, color: Colors.black),
-            onPressed: () {},
-          ),
         ),
       ),
     );

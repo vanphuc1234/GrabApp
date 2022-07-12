@@ -8,7 +8,7 @@ class CuaHangRepository {
   final baseUrl = 'api.yelp.com';
   final client = http.Client();
 
-  Future<List<CuaHangListingVm>> getCuaHangGanToiListing() async {
+  Future<CuaHangListingResponse> getCuaHangGanToiListing() async {
     final queryParameters = {
       'latitude': '37.786882',
       'longitude': '-122.399972'
@@ -19,13 +19,13 @@ class CuaHangRepository {
     final response = await client.get(uri);
     final json = jsonDecode(response.body);
 
-    return cuaHangListFromJson(json);
+    return CuaHangListingResponse.fromJson(json);
   }
 
-  List<CuaHangListingVm> cuaHangListFromJson(Map<String, dynamic> json) {
-    final List<CuaHangListingVm> cuaHangList = (json['businesses'] as List)
-        .map((listingJson) => CuaHangListingVm.fromJson(listingJson))
-        .toList();
-    return cuaHangList;
-  }
+  // List<CuaHangListingVm> cuaHangListFromJson(Map<String, dynamic> json) {
+  //   final List<CuaHangListingVm> cuaHangList = (json['businesses'] as List)
+  //       .map((listingJson) => CuaHangListingVm.fromJson(listingJson))
+  //       .toList();
+  //   return cuaHangList;
+  // }
 }

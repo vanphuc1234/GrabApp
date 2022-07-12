@@ -43,7 +43,7 @@ class _ChiTietQuanAnWidgetState extends State<ChiTietQuanAnWidget> {
                             primary: Colors.black38,
                           ),
                           onPressed: () {},
-                          child: Icon(Icons.favorite_border),
+                          child: const Icon(Icons.favorite_border),
                         );
                       }),
                     )

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/cua_hang_listing_vm.dart';
 import '../cubit/cua_hang_gan_toi_cubit.dart';
-import 'cua_hang_gan_toi_list_widget.dart';
 
 // ignore: must_be_immutable
 class CuaHangWidget extends StatelessWidget {

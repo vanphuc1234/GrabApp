@@ -1,9 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_cubit.dart';
-
-import 'package:bloc/bloc.dart';
 
 import 'cua_hang_gan_toi/view_cua_hang_gan_toi/cua_hang_gan_toi_list_widget.dart';
 
@@ -25,7 +24,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
       ),
-      home: const CuaHangGanToiWidget(title: 'Grab Food Demo'),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (context) => CuaHangGanToiBloc()..add(LoadEvent()))
+        ],
+        child: const CuaHangGanToiWidget(),
+      ),
     );
   }
 }

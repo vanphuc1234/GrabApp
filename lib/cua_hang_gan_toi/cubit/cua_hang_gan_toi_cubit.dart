@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_grab_app/repositories/cua_hang_repository.dart';
 
-import '../../data/cua_hang_data.dart';
 import '../../models/cua_hang_listing_vm.dart';
 
 class CuaHangObserver extends BlocObserver {
@@ -49,22 +48,23 @@ class LoadedState extends CuaHangGanToiState {
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
-  Error? error;
-  FailedToLoadState({this.error});
+  Error error;
+  FailedToLoadState({required this.error});
 }
 
 class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
+  final _cuaHangRepository = CuaHangRepository();
   CuaHangGanToiBloc() : super(LoadingState()) {
     on<LoadEvent>(_onLoadEvent);
     on<PullToRefreshEvent>(_onLoadEvent);
     on<FavoriteEvent>(_onFavoriteEvent);
   }
 
-  void _onLoadEvent(event, Emitter<CuaHangGanToiState> emit) async {
+  void _onLoadEvent(event, emit) async {
     emit(LoadingState());
     try {
-      final data = await CuaHangRepository().getCuaHangGanToiListing();
-      emit(LoadedState(cuaHangListingVmList: data));
+      final data = await _cuaHangRepository.getCuaHangGanToiListing();
+      emit(LoadedState(cuaHangListingVmList: data.cuaHangListingVm));
     } catch (e) {
       emit(FailedToLoadState(error: e as Error));
     }
