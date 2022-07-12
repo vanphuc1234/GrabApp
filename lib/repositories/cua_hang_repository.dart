@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../models/chi_tiet_cua_hang_vm.dart';
 import '../models/cua_hang_listing_vm.dart';
 
 class CuaHangRepository {
@@ -18,7 +19,8 @@ class CuaHangRepository {
     final uri = Uri.https(baseUrl, '/v3/businesses/search', queryParameters);
 
     final headers = {
-      'Authorization': 'Bearer YEx3jrT6Bx5ybkLEbqawmR8y4HQs6dJ4pipIV4P-uQHWQ6LJQ8YI3enZt2NDDgeOxEGhYk95BjzWOeTlugvNAzF8muwvu-6ECUJXkHEPLmiosaKotFHxcekkt-DCYnYx'
+      'Authorization':
+          'Bearer YEx3jrT6Bx5ybkLEbqawmR8y4HQs6dJ4pipIV4P-uQHWQ6LJQ8YI3enZt2NDDgeOxEGhYk95BjzWOeTlugvNAzF8muwvu-6ECUJXkHEPLmiosaKotFHxcekkt-DCYnYx'
     };
 
     final response = await client.get(uri, headers: headers);
@@ -27,10 +29,18 @@ class CuaHangRepository {
     return CuaHangListingResponse.fromJson(json);
   }
 
-  // List<CuaHangListingVm> cuaHangListFromJson(Map<String, dynamic> json) {
-  //   final List<CuaHangListingVm> cuaHangList = (json['businesses'] as List)
-  //       .map((listingJson) => CuaHangListingVm.fromJson(listingJson))
-  //       .toList();
-  //   return cuaHangList;
-  // }
+  Future<ChiTietCuaHangVm> getChiTietCuaHang(String cuaHangId) async {
+    final uri = Uri.https(baseUrl, '/v3/businesses/$cuaHangId');
+    final headers = {
+      'Authorization':
+          'Bearer YEx3jrT6Bx5ybkLEbqawmR8y4HQs6dJ4pipIV4P-uQHWQ6LJQ8YI3enZt2NDDgeOxEGhYk95BjzWOeTlugvNAzF8muwvu-6ECUJXkHEPLmiosaKotFHxcekkt-DCYnYx'
+    };
+    try {
+      final response = await client.get(uri, headers: headers);
+      final json = jsonDecode(response.body);
+      return ChiTietCuaHangVm.fromJson(json);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

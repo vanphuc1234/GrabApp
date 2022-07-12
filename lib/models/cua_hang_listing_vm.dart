@@ -16,6 +16,7 @@ class CuaHangListingVm {
   String image_url;
   bool is_liked = false;
   int review_count;
+  String categories;
 
   CuaHangListingVm({
     required this.id,
@@ -23,6 +24,7 @@ class CuaHangListingVm {
     required this.name,
     required this.rating,
     required this.review_count,
+    required this.categories,
   });
 
   factory CuaHangListingVm.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class CuaHangListingVm {
       image_url: json['image_url'],
       rating: json['rating'],
       review_count: json['review_count'],
+      categories: json['categories'][0]['title'],
     );
   }
 }

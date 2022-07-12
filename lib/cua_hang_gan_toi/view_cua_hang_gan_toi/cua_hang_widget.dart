@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/cua_hang_listing_vm.dart';
-import '../cubit/cua_hang_gan_toi_cubit.dart';
+import '../cubit/cua_hang_gan_toi_bloc.dart';
 
 // ignore: must_be_immutable
 class CuaHangWidget extends StatelessWidget {
@@ -19,14 +19,8 @@ class CuaHangWidget extends StatelessWidget {
           bottom: BorderSide(width: 1, color: Colors.black12),
         ),
       ),
-      //TODO: Navigator to ChiTietQuanAnWidget
-      child: TextButton(
-          onPressed: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const ChiTietQuanAnWidget()));
-          },
+      child: Container(
+          padding: const EdgeInsets.all(5),
           child: Row(
             children: [
               // Image Preview
@@ -47,7 +41,7 @@ class CuaHangWidget extends StatelessWidget {
                   children: [
                     Text(
                       //SHOP NAME
-                      cuaHangListing.name.toString(), maxLines: 1,
+                      cuaHangListing.name.toString(), maxLines: 2,
                       softWrap: true,
                       style: TextStyle(
                           height: heightText,
@@ -85,7 +79,16 @@ class CuaHangWidget extends StatelessWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    Text(
+                      cuaHangListing.categories,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        height: heightText,
+                      ),
+                    ),
                   ],
                 ),
               )),
