@@ -28,6 +28,8 @@ abstract class CuaHangGanToiEvent {}
 
 class LoadEvent extends CuaHangGanToiEvent {}
 
+class LoadMoreEvent extends CuaHangGanToiEvent {}
+
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
 class FavoriteEvent extends CuaHangGanToiEvent {
@@ -36,6 +38,7 @@ class FavoriteEvent extends CuaHangGanToiEvent {
 }
 
 abstract class CuaHangGanToiState {
+  int currentPage = 0;
   List<CuaHangListingVm> cuaHangList = [];
 }
 
@@ -43,8 +46,9 @@ class LoadingState extends CuaHangGanToiState {}
 
 class LoadedState extends CuaHangGanToiState {
   List<CuaHangListingVm> cuaHangList;
+  int currentPage = 0;
 
-  LoadedState({required this.cuaHangList});
+  LoadedState({required this.cuaHangList, required this.currentPage});
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
@@ -58,13 +62,28 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     on<LoadEvent>(_onLoadEvent);
     on<PullToRefreshEvent>(_onLoadEvent);
     on<FavoriteEvent>(_onFavoriteEvent);
+    on<LoadMoreEvent>(_onLoadMoreEvent);
   }
 
   void _onLoadEvent(event, emit) async {
     emit(LoadingState());
     try {
-      final data = await _cuaHangRepository.getCuaHangGanToiListing();
-      emit(LoadedState(cuaHangList: data.cuaHangListingVm));
+      final data =
+          await _cuaHangRepository.getCuaHangGanToiListing(state.currentPage);
+      emit(LoadedState(
+          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
+    } catch (e) {
+      emit(FailedToLoadState(message: e.toString()));
+    }
+  }
+
+  void _onLoadMoreEvent(event, emit) async {
+    try {
+      var page = state.currentPage + 1;
+      final data = await _cuaHangRepository.getCuaHangGanToiListing(page);
+      var newCuaHangList = [...state.cuaHangList, ...data.cuaHangListing];
+
+      emit(LoadedState(cuaHangList: newCuaHangList, currentPage: page));
     } catch (e) {
       emit(FailedToLoadState(message: e.toString()));
     }
@@ -76,6 +95,7 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     });
     debugPrint('Found shop: ${shop.name}');
     shop.is_liked = !shop.is_liked;
-    emit(LoadedState(cuaHangList: state.cuaHangList));
+    emit(LoadedState(
+        cuaHangList: state.cuaHangList, currentPage: state.currentPage));
   }
 }

@@ -7,7 +7,14 @@
 //         "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/4avfA7HWOW_Bl0J_8J60rg/o.jpg",
 //         "is_closed": false,
 //         "url": "https://www.yelp.com/biz/hog-island-oyster-san-francisco-2?adjust_creative=IO7Pk2bg_E-lyl_eDgbMBA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=IO7Pk2bg_E-lyl_eDgbMBA",
-//         "review_count": 6499,
+//         "review_count": 6499,..]
+//"total": 3900, total of business
+// "region": {
+//     "center": {
+//         "longitude": -122.399972,
+//         "latitude": 37.786882
+//     }
+// }
 
 class CuaHangListingVm {
   String id;
@@ -40,14 +47,14 @@ class CuaHangListingVm {
 }
 
 class CuaHangListingResponse {
-  final List<CuaHangListingVm> cuaHangListingVm;
+  final List<CuaHangListingVm> cuaHangListing;
 
-  CuaHangListingResponse({required this.cuaHangListingVm});
+  CuaHangListingResponse({required this.cuaHangListing});
 
   factory CuaHangListingResponse.fromJson(Map<String, dynamic> json) {
-    final cuaHangListingVm = (json['businesses'] as List)
+    final cuaHangListing = (json['businesses'] as List)
         .map((listingJson) => CuaHangListingVm.fromJson(listingJson))
         .toList();
-    return CuaHangListingResponse(cuaHangListingVm: cuaHangListingVm);
+    return CuaHangListingResponse(cuaHangListing: cuaHangListing);
   }
 }

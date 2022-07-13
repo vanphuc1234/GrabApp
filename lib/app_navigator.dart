@@ -18,7 +18,7 @@ class AppNavigator extends StatelessWidget {
             child: CuaHangGanToiWidget(),
           ),
           if (cuaHangId != null)
-            MaterialPage(
+            const MaterialPage(
               child: ChiTietQuanAnWidget(),
             )
         ],

@@ -240,6 +240,7 @@ class ChiTietQuanAnWidget extends StatelessWidget {
                     ),
                   ]),
                 )
+              //TODO: else
               : SafeArea(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

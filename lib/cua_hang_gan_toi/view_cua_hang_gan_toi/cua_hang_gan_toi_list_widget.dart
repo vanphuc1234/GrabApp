@@ -42,6 +42,10 @@ class CuaHangGanToiWidget extends StatelessWidget {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
+                  } else if (state is FailedToLoadState) {
+                    return Center(
+                      child: Text('Error occured: ${state.message}'),
+                    );
                   } else if (state is LoadedState) {
                     return RefreshIndicator(
                         onRefresh: () async =>
@@ -50,6 +54,16 @@ class CuaHangGanToiWidget extends StatelessWidget {
                         child: ListView.builder(
                             itemCount: state.cuaHangList.length,
                             itemBuilder: (context, index) {
+                              if (index == state.cuaHangList.length - 1) {
+                                BlocProvider.of<CuaHangGanToiBloc>(context)
+                                    .add(LoadMoreEvent());
+
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                ));
+                              }
+
                               return GestureDetector(
                                   onTap: () =>
                                       BlocProvider.of<NavCubit>(context)
@@ -58,10 +72,6 @@ class CuaHangGanToiWidget extends StatelessWidget {
                                   child:
                                       CuaHangWidget(state.cuaHangList[index]));
                             }));
-                  } else if (state is FailedToLoadState) {
-                    return Center(
-                      child: Text('Error occured: ${state.message}'),
-                    );
                   }
                   return Container();
                 },

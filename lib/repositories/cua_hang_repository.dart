@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/chi_tiet_cua_hang_vm.dart';
@@ -9,11 +10,14 @@ class CuaHangRepository {
   final baseUrl = 'api.yelp.com';
   final client = http.Client();
 
-  Future<CuaHangListingResponse> getCuaHangGanToiListing() async {
+  Future<CuaHangListingResponse> getCuaHangGanToiListing(
+      int currentPage) async {
     final queryParameters = {
       'term': 'coffee',
       'latitude': '37.786882',
-      'longitude': '-122.399972'
+      'longitude': '-122.399972',
+      'limit': '15',
+      'offset': currentPage.toString(),
     };
 
     final uri = Uri.https(baseUrl, '/v3/businesses/search', queryParameters);

@@ -7,8 +7,6 @@ import 'package:flutter_grab_app/chi_tiet_cua_hang_cubit.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.dart';
 import 'package:flutter_grab_app/nav_cubit.dart';
 
-import 'cua_hang_gan_toi/view_cua_hang_gan_toi/cua_hang_gan_toi_list_widget.dart';
-
 void main() {
   BlocOverrides.runZoned(
     () => runApp(const MyApp()),
@@ -24,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final chiTietCuaHangCubit = ChiTietCuaHangCubit();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Grab Food',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
