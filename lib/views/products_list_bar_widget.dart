@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.dart';
 
-import '../cua_hang_gan_toi/view_cua_hang_gan_toi/sort_by_widget.dart';
+import '../cua_hang_gan_toi/view_cua_hang_gan_toi/popup_sort_by_widget.dart';
 
 class ProductListBarWidget extends StatefulWidget {
   const ProductListBarWidget({Key? key}) : super(key: key);
@@ -93,9 +93,8 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
   }
 }
 
-class SortByModel extends StatelessWidget {
+class SortByModel extends StatefulWidget {
   String name = '';
-  bool isSelected = IsSelectedState().isSelected;
   var event1;
   var event2;
 
@@ -107,12 +106,19 @@ class SortByModel extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<SortByModel> createState() => _SortByModelState();
+}
+
+class _SortByModelState extends State<SortByModel> {
+  bool isSelected = IsSelectedState().isSelected;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
       child: ActionChip(
         label: Text(
-          name,
+          widget.name,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
@@ -121,12 +127,15 @@ class SortByModel extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          isSelected = !isSelected;
+          setState(() {
+            isSelected = !isSelected;
+          });
+
           isSelected
-              ? BlocProvider.of<CuaHangGanToiBloc>(context).add(event1)
-              : BlocProvider.of<CuaHangGanToiBloc>(context).add(event2);
+              ? BlocProvider.of<CuaHangGanToiBloc>(context).add(widget.event1)
+              : BlocProvider.of<CuaHangGanToiBloc>(context).add(widget.event2);
         },
-        backgroundColor: isSelected ? Colors.green[200] : Colors.white,
+        backgroundColor: isSelected ? Colors.green[400] : Colors.white,
         side: const BorderSide(color: Colors.black12, width: 1),
       ),
     );

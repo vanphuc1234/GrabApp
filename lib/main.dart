@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Grab Food',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+        primarySwatch: Colors.green,
       ),
       home: MultiBlocProvider(
         providers: [
