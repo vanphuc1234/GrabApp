@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.dart';
 
-class ProductListBarWidget extends StatelessWidget {
+import '../cua_hang_gan_toi/view_cua_hang_gan_toi/sort_by_widget.dart';
+
+class ProductListBarWidget extends StatefulWidget {
   const ProductListBarWidget({Key? key}) : super(key: key);
 
+  @override
+  State<ProductListBarWidget> createState() => _ProductListBarWidgetState();
+}
+
+class _ProductListBarWidgetState extends State<ProductListBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,28 +28,82 @@ class ProductListBarWidget extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(right: 10),
-            child: OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(30, 30),
-                // ignore: prefer_const_constructors
-                shape: StadiumBorder(),
-                // ignore: prefer_const_constructors
-                side: BorderSide(width: 1, color: Colors.black12),
+            child: ActionChip(
+                onPressed: () {
+                  _openDialog();
+                },
+                backgroundColor: Colors.white,
+                side: const BorderSide(color: Colors.black12, width: 1),
+                label: const Text(
+                  'Sort By',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: ActionChip(
+              label: const Text(
+                'Review Count',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                BlocProvider.of<CuaHangGanToiBloc>(context)
+                    .add(SortByReviewCountEvent());
+              },
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: Colors.black12, width: 1),
+
               // ignore: prefer_const_constructors
-              child: Icon(
-                Icons.clear_all,
-                color: Colors.black,
-                size: 20,
-              ),
             ),
           ),
-          BoLoc('Khuyến mãi'),
-          BoLoc('Phí giao hàng'),
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: ActionChip(
+              label: const Text(
+                'Best Match',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              onPressed: () {
+                BlocProvider.of<CuaHangGanToiBloc>(context).add(LoadEvent());
+              },
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: Colors.black12, width: 1),
+
+              // ignore: prefer_const_constructors
+            ),
+          ),
+          BoLoc('Rating'),
         ],
       ),
     );
+  }
+
+  void _openDialog() async {
+    var selected = await Navigator.of(context).push(MaterialPageRoute<String>(
+        builder: (BuildContext context) {
+          return PopUpWidget();
+        },
+        fullscreenDialog: true));
+    if (selected != null) {
+      setState(() {
+        selected = selected;
+      });
+    }
   }
 }
 
@@ -59,16 +122,11 @@ class _BoLocState extends State<BoLoc> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          minimumSize: const Size(40, 40),
-          maximumSize: const Size(140, 50),
-          // ignore: prefer_const_constructors
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        ),
+      child: ActionChip(
+        backgroundColor: Colors.white,
+        side: BorderSide(color: Colors.black12, width: 1),
         onPressed: () {},
-        child: Text(
+        label: Text(
           maxLines: 1,
           // ignore: unnecessary_this
           this.widget.text,

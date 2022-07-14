@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/chi_tiet_cua_hang_vm.dart';
@@ -46,5 +45,29 @@ class CuaHangRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<CuaHangListingResponse> getCuaHangGanToiListByReviewCount(
+      int currentPage) async {
+    final queryParameters = {
+      'term': 'coffee',
+      'latitude': '37.786882',
+      'longitude': '-122.399972',
+      'limit': '15',
+      'offset': currentPage.toString(),
+      'sort_by': 'review_count',
+    };
+
+    final uri = Uri.https(baseUrl, '/v3/businesses/search', queryParameters);
+
+    final headers = {
+      'Authorization':
+          'Bearer YEx3jrT6Bx5ybkLEbqawmR8y4HQs6dJ4pipIV4P-uQHWQ6LJQ8YI3enZt2NDDgeOxEGhYk95BjzWOeTlugvNAzF8muwvu-6ECUJXkHEPLmiosaKotFHxcekkt-DCYnYx'
+    };
+
+    final response = await client.get(uri, headers: headers);
+    final json = jsonDecode(response.body);
+
+    return CuaHangListingResponse.fromJson(json);
   }
 }

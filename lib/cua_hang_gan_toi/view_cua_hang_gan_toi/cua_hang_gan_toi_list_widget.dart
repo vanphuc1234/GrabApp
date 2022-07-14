@@ -47,31 +47,25 @@ class CuaHangGanToiWidget extends StatelessWidget {
                       child: Text('Error occured: ${state.message}'),
                     );
                   } else if (state is LoadedState) {
-                    return RefreshIndicator(
-                        onRefresh: () async =>
+                    return ListView.builder(
+                        itemCount: state.cuaHangList.length,
+                        itemBuilder: (context, index) {
+                          if (index == state.cuaHangList.length - 1) {
                             BlocProvider.of<CuaHangGanToiBloc>(context)
-                                .add(PullToRefreshEvent()),
-                        child: ListView.builder(
-                            itemCount: state.cuaHangList.length,
-                            itemBuilder: (context, index) {
-                              if (index == state.cuaHangList.length - 1) {
-                                BlocProvider.of<CuaHangGanToiBloc>(context)
-                                    .add(LoadMoreEvent());
+                                .add(LoadMoreEvent());
 
-                                return const Center(
-                                    child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                ));
-                              }
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            ));
+                          }
 
-                              return GestureDetector(
-                                  onTap: () =>
-                                      BlocProvider.of<NavCubit>(context)
-                                          .showCuaHangDetails(
-                                              state.cuaHangList[index].id),
-                                  child:
-                                      CuaHangWidget(state.cuaHangList[index]));
-                            }));
+                          return GestureDetector(
+                              onTap: () => BlocProvider.of<NavCubit>(context)
+                                  .showCuaHangDetails(
+                                      state.cuaHangList[index].id),
+                              child: CuaHangWidget(state.cuaHangList[index]));
+                        });
                   }
                   return Container();
                 },

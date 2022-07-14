@@ -30,6 +30,8 @@ class LoadEvent extends CuaHangGanToiEvent {}
 
 class LoadMoreEvent extends CuaHangGanToiEvent {}
 
+class SortByReviewCountEvent extends CuaHangGanToiEvent {}
+
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
 class FavoriteEvent extends CuaHangGanToiEvent {
@@ -63,6 +65,19 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     on<PullToRefreshEvent>(_onLoadEvent);
     on<FavoriteEvent>(_onFavoriteEvent);
     on<LoadMoreEvent>(_onLoadMoreEvent);
+    on<SortByReviewCountEvent>(_onSortByReviewCountEvent);
+  }
+
+  void _onSortByReviewCountEvent(
+      SortByReviewCountEvent event, Emitter<CuaHangGanToiState> emit) async {
+    emit(LoadingState());
+    try {
+      final data =
+          await _cuaHangRepository.getCuaHangGanToiListByReviewCount(0);
+      emit(LoadedState(cuaHangList: data.cuaHangListing, currentPage: 0));
+    } catch (e) {
+      emit(FailedToLoadState(message: e.toString()));
+    }
   }
 
   void _onLoadEvent(event, emit) async {
