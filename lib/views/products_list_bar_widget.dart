@@ -48,7 +48,7 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
             margin: const EdgeInsets.only(right: 10),
             child: ActionChip(
               label: const Text(
-                'Review Count',
+                'Best Match',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 13,
@@ -57,8 +57,7 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<CuaHangGanToiBloc>(context)
-                    .add(SortByReviewCountEvent());
+                BlocProvider.of<CuaHangGanToiBloc>(context).add(LoadEvent());
               },
               backgroundColor: Colors.white,
               side: const BorderSide(color: Colors.black12, width: 1),
@@ -70,7 +69,7 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
             margin: const EdgeInsets.only(right: 10),
             child: ActionChip(
               label: const Text(
-                'Best Match',
+                'Review Count',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 13,
@@ -79,7 +78,8 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
                 ),
               ),
               onPressed: () {
-                BlocProvider.of<CuaHangGanToiBloc>(context).add(LoadEvent());
+                BlocProvider.of<CuaHangGanToiBloc>(context)
+                    .add(SortByReviewCountEvent());
               },
               backgroundColor: Colors.white,
               side: const BorderSide(color: Colors.black12, width: 1),

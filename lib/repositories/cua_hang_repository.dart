@@ -12,7 +12,7 @@ class CuaHangRepository {
   Future<CuaHangListingResponse> getCuaHangGanToiListing(
       int currentPage) async {
     final queryParameters = {
-      'term': 'coffee',
+      // 'term': 'coffee',
       'latitude': '37.786882',
       'longitude': '-122.399972',
       'limit': '15',
@@ -50,12 +50,12 @@ class CuaHangRepository {
   Future<CuaHangListingResponse> getCuaHangGanToiListByReviewCount(
       int currentPage) async {
     final queryParameters = {
-      'term': 'coffee',
+      // 'term': 'coffee',
       'latitude': '37.786882',
       'longitude': '-122.399972',
+      'sort_by': 'review_count',
       'limit': '15',
       'offset': currentPage.toString(),
-      'sort_by': 'review_count',
     };
 
     final uri = Uri.https(baseUrl, '/v3/businesses/search', queryParameters);

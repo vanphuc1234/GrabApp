@@ -72,9 +72,10 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
       SortByReviewCountEvent event, Emitter<CuaHangGanToiState> emit) async {
     emit(LoadingState());
     try {
-      final data =
-          await _cuaHangRepository.getCuaHangGanToiListByReviewCount(0);
-      emit(LoadedState(cuaHangList: data.cuaHangListing, currentPage: 0));
+      final data = await _cuaHangRepository
+          .getCuaHangGanToiListByReviewCount(state.currentPage);
+      emit(LoadedState(
+          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
     } catch (e) {
       emit(FailedToLoadState(message: e.toString()));
     }
