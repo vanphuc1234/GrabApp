@@ -65,29 +65,15 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
               // ignore: prefer_const_constructors
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: ActionChip(
-              label: const Text(
-                'Review Count',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              onPressed: () {
-                BlocProvider.of<CuaHangGanToiBloc>(context)
-                    .add(SortByReviewCountEvent());
-              },
-              backgroundColor: Colors.white,
-              side: const BorderSide(color: Colors.black12, width: 1),
-
-              // ignore: prefer_const_constructors
-            ),
+          SortByModel(
+              name: 'Review Count',
+              event1: SortByReviewCountEvent(),
+              event2: LoadEvent()),
+          SortByModel(
+            name: 'Rating',
+            event1: SortByRatingEvent(),
+            event2: LoadEvent(),
           ),
-          BoLoc('Rating'),
         ],
       ),
     );
@@ -96,7 +82,7 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
   void _openDialog() async {
     var selected = await Navigator.of(context).push(MaterialPageRoute<String>(
         builder: (BuildContext context) {
-          return PopUpWidget();
+          return const PopUpFilterWidget();
         },
         fullscreenDialog: true));
     if (selected != null) {
@@ -107,37 +93,41 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
   }
 }
 
-// ignore: must_be_immutable
-class BoLoc extends StatefulWidget {
-  String text = '';
-  // ignore: use_key_in_widget_constructors
-  BoLoc(this.text);
+class SortByModel extends StatelessWidget {
+  String name = '';
+  bool isSelected = IsSelectedState().isSelected;
+  var event1;
+  var event2;
 
-  @override
-  State<BoLoc> createState() => _BoLocState();
-}
+  SortByModel(
+      {Key? key,
+      required this.name,
+      required this.event1,
+      required this.event2})
+      : super(key: key);
 
-class _BoLocState extends State<BoLoc> {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
       child: ActionChip(
-        backgroundColor: Colors.white,
-        side: BorderSide(color: Colors.black12, width: 1),
-        onPressed: () {},
         label: Text(
-          maxLines: 1,
-          // ignore: unnecessary_this
-          this.widget.text,
-          // ignore: prefer_const_constructors
-          style: TextStyle(
+          name,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
             fontWeight: FontWeight.w400,
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        onPressed: () {
+          isSelected = !isSelected;
+          isSelected
+              ? BlocProvider.of<CuaHangGanToiBloc>(context).add(event1)
+              : BlocProvider.of<CuaHangGanToiBloc>(context).add(event2);
+        },
+        backgroundColor: isSelected ? Colors.green[200] : Colors.white,
+        side: const BorderSide(color: Colors.black12, width: 1),
       ),
     );
   }

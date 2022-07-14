@@ -70,4 +70,28 @@ class CuaHangRepository {
 
     return CuaHangListingResponse.fromJson(json);
   }
+
+  Future<CuaHangListingResponse> getCuaHangGanToiListByRating(
+      int currentPage) async {
+    final queryParameters = {
+      // 'term': 'coffee',
+      'latitude': '37.786882',
+      'longitude': '-122.399972',
+      'sort_by': 'rating',
+      'limit': '15',
+      'offset': currentPage.toString(),
+    };
+
+    final uri = Uri.https(baseUrl, '/v3/businesses/search', queryParameters);
+
+    final headers = {
+      'Authorization':
+          'Bearer YEx3jrT6Bx5ybkLEbqawmR8y4HQs6dJ4pipIV4P-uQHWQ6LJQ8YI3enZt2NDDgeOxEGhYk95BjzWOeTlugvNAzF8muwvu-6ECUJXkHEPLmiosaKotFHxcekkt-DCYnYx'
+    };
+
+    final response = await client.get(uri, headers: headers);
+    final json = jsonDecode(response.body);
+
+    return CuaHangListingResponse.fromJson(json);
+  }
 }

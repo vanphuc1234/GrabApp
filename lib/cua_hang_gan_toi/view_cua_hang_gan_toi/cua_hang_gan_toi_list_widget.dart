@@ -20,7 +20,7 @@ List<CuaHangWidget> buildMenuQuanAn(List<CuaHangListingVm> cuaHangList) {
 }
 
 class CuaHangGanToiWidget extends StatelessWidget {
-  const CuaHangGanToiWidget({
+  CuaHangGanToiWidget({
     Key? key,
   }) : super(key: key);
 

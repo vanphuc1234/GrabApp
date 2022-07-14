@@ -32,6 +32,8 @@ class LoadMoreEvent extends CuaHangGanToiEvent {}
 
 class SortByReviewCountEvent extends CuaHangGanToiEvent {}
 
+class SortByRatingEvent extends CuaHangGanToiEvent {}
+
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
 class FavoriteEvent extends CuaHangGanToiEvent {
@@ -42,6 +44,7 @@ class FavoriteEvent extends CuaHangGanToiEvent {
 abstract class CuaHangGanToiState {
   int currentPage = 0;
   List<CuaHangListingVm> cuaHangList = [];
+  bool isSelected = false;
 }
 
 class LoadingState extends CuaHangGanToiState {}
@@ -51,6 +54,10 @@ class LoadedState extends CuaHangGanToiState {
   int currentPage = 0;
 
   LoadedState({required this.cuaHangList, required this.currentPage});
+}
+
+class IsSelectedState extends CuaHangGanToiState {
+  bool isSelected = false;
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
@@ -66,14 +73,29 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     on<FavoriteEvent>(_onFavoriteEvent);
     on<LoadMoreEvent>(_onLoadMoreEvent);
     on<SortByReviewCountEvent>(_onSortByReviewCountEvent);
+    on<SortByRatingEvent>(_onSortByRatingEvent);
   }
 
   void _onSortByReviewCountEvent(
       SortByReviewCountEvent event, Emitter<CuaHangGanToiState> emit) async {
+    state.isSelected = !state.isSelected;
+    emit(IsSelectedState());
     emit(LoadingState());
     try {
       final data = await _cuaHangRepository
           .getCuaHangGanToiListByReviewCount(state.currentPage);
+      emit(LoadedState(
+          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
+    } catch (e) {
+      emit(FailedToLoadState(message: e.toString()));
+    }
+  }
+
+  void _onSortByRatingEvent(event, Emitter<CuaHangGanToiState> emit) async {
+    emit(LoadingState());
+    try {
+      final data = await _cuaHangRepository
+          .getCuaHangGanToiListByRating(state.currentPage);
       emit(LoadedState(
           cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
     } catch (e) {
@@ -110,7 +132,9 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
       return item.id == event.cuaHangListing.id;
     });
     debugPrint('Found shop: ${shop.name}');
+
     shop.is_liked = !shop.is_liked;
+    debugPrint('isLiked = ${shop.is_liked}');
     emit(LoadedState(
         cuaHangList: state.cuaHangList, currentPage: state.currentPage));
   }

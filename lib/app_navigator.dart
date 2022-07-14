@@ -14,7 +14,7 @@ class AppNavigator extends StatelessWidget {
     return BlocBuilder<NavCubit, String?>(builder: (context, cuaHangId) {
       return Navigator(
         pages: [
-          const MaterialPage(
+          MaterialPage(
             child: CuaHangGanToiWidget(),
           ),
           if (cuaHangId != null)

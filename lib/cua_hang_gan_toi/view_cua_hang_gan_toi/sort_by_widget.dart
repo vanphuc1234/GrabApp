@@ -1,15 +1,13 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
-class PopUpWidget extends StatefulWidget {
-  const PopUpWidget({Key? key}) : super(key: key);
+class PopUpFilterWidget extends StatefulWidget {
+  const PopUpFilterWidget({Key? key}) : super(key: key);
 
   @override
-  State<PopUpWidget> createState() => _PopUpWidgetState();
+  State<PopUpFilterWidget> createState() => _PopUpFilterWidgetState();
 }
 
-class _PopUpWidgetState extends State<PopUpWidget> {
+class _PopUpFilterWidgetState extends State<PopUpFilterWidget> {
   var groupValue = 1;
   bool isSelected = false;
 
@@ -21,7 +19,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,47 +29,50 @@ class _PopUpWidgetState extends State<PopUpWidget> {
                 style: TextStyle(fontSize: 20),
               ),
               RadioListTile(
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 value: 1,
                 groupValue: groupValue,
                 onChanged: (newValue) {
                   setState(() {
                     groupValue = newValue as int;
                   });
+                  Navigator.pop(context);
                 },
-                title: Text('Best Match'),
-                secondary: Icon(Icons.favorite_border_outlined),
+                title: const Text('Best Match'),
+                secondary: const Icon(Icons.favorite_border_outlined),
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
-              Divider(thickness: 2),
+              const Divider(thickness: 2),
               RadioListTile(
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 value: 2,
                 groupValue: groupValue,
                 onChanged: (newValue) {
                   setState(() {
                     groupValue = newValue as int;
                   });
+                  Navigator.pop(context);
                 },
-                title: Text('Rating'),
-                secondary: Icon(Icons.star_border),
+                title: const Text('Rating'),
+                secondary: const Icon(Icons.star_border),
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
-              Divider(thickness: 2),
+              const Divider(thickness: 2),
               RadioListTile(
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 value: 3,
                 groupValue: groupValue,
                 onChanged: (newValue) {
                   setState(() {
                     groupValue = newValue as int;
                   });
+                  Navigator.pop(context);
                 },
-                title: Text('Rate Count'),
-                secondary: Icon(Icons.rate_review_outlined),
+                title: const Text('Rate Count'),
+                secondary: const Icon(Icons.rate_review_outlined),
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
-              Divider(thickness: 2),
+              const Divider(thickness: 2),
             ],
           ),
         ),
