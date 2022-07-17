@@ -7,10 +7,12 @@ import 'package:flutter_grab_app/chi_tiet_cua_hang_cubit.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.dart';
 import 'package:flutter_grab_app/nav_cubit.dart';
 
+import 'SimpleBlocObserver.dart';
+
 void main() {
   BlocOverrides.runZoned(
     () => runApp(const MyApp()),
-    blocObserver: CuaHangObserver(),
+    blocObserver: SimpleBlocObserver(),
   );
 }
 

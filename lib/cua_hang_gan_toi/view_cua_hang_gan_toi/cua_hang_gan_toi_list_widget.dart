@@ -24,8 +24,50 @@ class CuaHangGanToiWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+
+    
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
+              builder: (context, state) {
+                return rebuildWidget(context, state);
+              });
+  }
+
+  Widget buildChild(context, CuaHangGanToiState state) {
+    if (state is LoadingState) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (state is FailedToLoadState) {
+      return Center(
+        child: Text('Error occured: ${state.message}'),
+      );
+    } else if (state is LoadedState) {
+      return ListView.builder(
+          itemCount: state.cuaHangList.length,
+          itemBuilder: (context, index) {
+            if (index == state.cuaHangList.length - 1) {
+              BlocProvider.of<CuaHangGanToiBloc>(context)
+                  .add(LoadMoreEvent());
+
+              return const Center(
+                  child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+              ));
+            }
+
+            return GestureDetector(
+                onTap: () => BlocProvider.of<NavCubit>(context)
+                    .showCuaHangDetails(
+                        state.cuaHangList[index].id),
+                child: CuaHangWidget(state.cuaHangList[index]));
+          });
+    }
+    return Container();
+  }
+
+  Widget rebuildWidget(BuildContext context, state) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -33,44 +75,9 @@ class CuaHangGanToiWidget extends StatelessWidget {
             //header
             const ProductHeaderWidget(),
             //MenuBar
-            const ProductListBarWidget(),
+            ProductListBarWidget(),
             //MainContent
-            Expanded(
-              child: BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
-                builder: (context, state) {
-                  if (state is LoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is FailedToLoadState) {
-                    return Center(
-                      child: Text('Error occured: ${state.message}'),
-                    );
-                  } else if (state is LoadedState) {
-                    return ListView.builder(
-                        itemCount: state.cuaHangList.length,
-                        itemBuilder: (context, index) {
-                          if (index == state.cuaHangList.length - 1) {
-                            BlocProvider.of<CuaHangGanToiBloc>(context)
-                                .add(LoadMoreEvent());
-
-                            return const Center(
-                                child: CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                            ));
-                          }
-
-                          return GestureDetector(
-                              onTap: () => BlocProvider.of<NavCubit>(context)
-                                  .showCuaHangDetails(
-                                      state.cuaHangList[index].id),
-                              child: CuaHangWidget(state.cuaHangList[index]));
-                        });
-                  }
-                  return Container();
-                },
-              ),
-            )
+            Expanded(child: buildChild(context, state))
           ],
         ),
       ),
@@ -85,6 +92,7 @@ class CuaHangGanToiWidget extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class KhuyenMai {

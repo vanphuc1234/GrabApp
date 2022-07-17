@@ -2,21 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.dart';
 
-class PopUpFilterWidget extends StatefulWidget {
-  const PopUpFilterWidget({Key? key}) : super(key: key);
-
-  @override
-  State<PopUpFilterWidget> createState() => _PopUpFilterWidgetState();
-}
-
-class _PopUpFilterWidgetState extends State<PopUpFilterWidget> {
-  List<int> listValue = [0, 1, 2];
+class PopUpFilterWidget extends StatelessWidget {
   var groupValue = 0;
-  bool selectedRating = false;
-  bool selectedReviewCount = false;
-
-  @override
-  Widget build(BuildContext context) {
+  PopUpFilterWidget({Key? key}) : super(key: key);
+  
+  Widget buildSortWidgets(context, CuaHangGanToiState state) {
+    print('Check: ${state.sortBy}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -39,52 +30,41 @@ class _PopUpFilterWidgetState extends State<PopUpFilterWidget> {
               RadioListTile(
                 title: const Text('Best Match'),
                 contentPadding: const EdgeInsets.all(0),
-                value: listValue[0],
-                groupValue: groupValue,
+                value: 1,
+                groupValue: state.sortBy,
                 onChanged: (value) {
-                  setState(() {
-                    groupValue = value as int;
-                  });
-                  BlocProvider.of<CuaHangGanToiBloc>(context).add(LoadEvent());
+                  BlocProvider.of<CuaHangGanToiBloc>(context).add(SortEvent(sortBy: 1));
+                  Navigator.pop(context);
                 },
+                selected: state.sortBy == 1,
                 secondary: const Icon(Icons.favorite_border_outlined),
-                controlAffinity: ListTileControlAffinity.trailing,
-              ),
-              const Divider(thickness: 2),
-              RadioListTile(
-                title: const Text('Rating'),
-                contentPadding: const EdgeInsets.all(0),
-                value: listValue[1],
-                groupValue: groupValue,
-                onChanged: (value) {
-                  setState(() {
-                    groupValue = value as int;
-                    selectedReviewCount = false;
-                    selectedRating = true;
-                  });
-                  BlocProvider.of<CuaHangGanToiBloc>(context)
-                      .add(SortByRatingEvent());
-                },
-                selected: selectedRating,
-                secondary: const Icon(Icons.star_border),
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
               const Divider(thickness: 2),
               RadioListTile(
                 title: const Text('Review Count'),
                 contentPadding: const EdgeInsets.all(0),
-                value: listValue[2],
-                groupValue: groupValue,
+                value: 2,
+                groupValue: state.sortBy,
                 onChanged: (value) {
-                  setState(() {
-                    groupValue = value as int;
-                    selectedReviewCount = true;
-                    selectedRating = false;
-                  });
-                  BlocProvider.of<CuaHangGanToiBloc>(context)
-                      .add(SortByReviewCountEvent());
+                  BlocProvider.of<CuaHangGanToiBloc>(context).add(SortEvent(sortBy: 2));
+                  Navigator.pop(context);
                 },
-                selected: selectedReviewCount,
+                selected: state.sortBy == 2,
+                secondary: const Icon(Icons.star_border),
+                controlAffinity: ListTileControlAffinity.trailing,
+              ),
+              const Divider(thickness: 2),
+              RadioListTile(
+                title: const Text('Rating'),
+                contentPadding: const EdgeInsets.all(0),
+                value: 3,
+                groupValue: state.sortBy,
+                onChanged: (value) {
+                  BlocProvider.of<CuaHangGanToiBloc>(context).add(SortEvent(sortBy: 3));
+                  Navigator.pop(context);
+                },
+                selected: state.sortBy == 3,
                 secondary: const Icon(Icons.rate_review_outlined),
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
@@ -94,5 +74,13 @@ class _PopUpFilterWidgetState extends State<PopUpFilterWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
+                builder: (context, state) {
+                  return buildSortWidgets(context, state);
+                });
   }
 }

@@ -4,14 +4,9 @@ import 'package:flutter_grab_app/cua_hang_gan_toi/cubit/cua_hang_gan_toi_bloc.da
 
 import '../cua_hang_gan_toi/view_cua_hang_gan_toi/popup_sort_by_widget.dart';
 
-class ProductListBarWidget extends StatefulWidget {
-  const ProductListBarWidget({Key? key}) : super(key: key);
+class ProductListBarWidget extends StatelessWidget {
+  ProductListBarWidget({Key? key}) : super(key: key);
 
-  @override
-  State<ProductListBarWidget> createState() => _ProductListBarWidgetState();
-}
-
-class _ProductListBarWidgetState extends State<ProductListBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +25,7 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
             margin: const EdgeInsets.only(right: 10),
             child: ActionChip(
                 onPressed: () {
-                  _openDialog();
+                  _openDialog(context);
                 },
                 backgroundColor: Colors.white,
                 side: const BorderSide(color: Colors.black12, width: 1),
@@ -44,81 +39,35 @@ class _ProductListBarWidgetState extends State<ProductListBarWidget> {
                   ),
                 )),
           ),
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: ActionChip(
-              label: const Text(
-                'Best Match',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              onPressed: () {
-                BlocProvider.of<CuaHangGanToiBloc>(context).add(LoadEvent());
-              },
-              backgroundColor: Colors.white,
-              side: const BorderSide(color: Colors.black12, width: 1),
-
-              // ignore: prefer_const_constructors
-            ),
-          ),
-          SortByModel(
-              name: 'Review Count',
-              event1: SortByReviewCountEvent(),
-              event2: LoadEvent()),
-          SortByModel(
-            name: 'Rating',
-            event1: SortByRatingEvent(),
-            event2: LoadEvent(),
-          ),
+          SortByModel(name: 'Best matched', sortByValue: 1),
+          SortByModel(name: 'Review Count', sortByValue: 2),
+          SortByModel(name: 'Rating', sortByValue: 3),
         ],
       ),
     );
   }
 
-  void _openDialog() async {
-    var selected = await Navigator.of(context).push(MaterialPageRoute<String>(
+  void _openDialog(context) async {
+    await Navigator.of(context).push(MaterialPageRoute<String>(
         builder: (BuildContext context) {
-          return const PopUpFilterWidget();
+          return PopUpFilterWidget();
         },
         fullscreenDialog: true));
-    if (selected != null) {
-      setState(() {
-        selected = selected;
-      });
-    }
   }
 }
 
-class SortByModel extends StatefulWidget {
+class SortByModel extends StatelessWidget {
   String name = '';
-  var event1;
-  var event2;
+  int? sortByValue;
 
-  SortByModel(
-      {Key? key,
-      required this.name,
-      required this.event1,
-      required this.event2})
-      : super(key: key);
+  SortByModel({required this.name, required this.sortByValue, Key? key}) : super(key: key);
 
-  @override
-  State<SortByModel> createState() => _SortByModelState();
-}
-
-class _SortByModelState extends State<SortByModel> {
-  bool isSelected = IsSelectedState().isSelected;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildSortByPanel(context, CuaHangGanToiState state) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
       child: ActionChip(
         label: Text(
-          widget.name,
+          name,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
@@ -127,17 +76,20 @@ class _SortByModelState extends State<SortByModel> {
           ),
         ),
         onPressed: () {
-          setState(() {
-            isSelected = !isSelected;
-          });
-
-          isSelected
-              ? BlocProvider.of<CuaHangGanToiBloc>(context).add(widget.event1)
-              : BlocProvider.of<CuaHangGanToiBloc>(context).add(widget.event2);
+           BlocProvider.of<CuaHangGanToiBloc>(context).add(SortEvent(sortBy: sortByValue!));
         },
-        backgroundColor: isSelected ? Colors.green[400] : Colors.white,
+        backgroundColor: state.sortBy == sortByValue ? Colors.green[400] : Colors.white,
         side: const BorderSide(color: Colors.black12, width: 1),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CuaHangGanToiBloc, CuaHangGanToiState>(
+                builder: (context, state) {
+                  print('Rebuild listing bar ${state.sortBy}');
+                  return buildSortByPanel(context, state);
+                });
   }
 }

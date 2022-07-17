@@ -5,13 +5,7 @@ import 'package:flutter_grab_app/repositories/cua_hang_repository.dart';
 
 import '../../models/cua_hang_listing_vm.dart';
 
-class CuaHangObserver extends BlocObserver {
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-    debugPrint('${bloc.runtimeType} $change');
-  }
-}
+
 
 // class CuaHangGanToiCubit extends Cubit<List<CuaHangListingVm>> {
 //   CuaHangGanToiCubit() : super(dataMenu());
@@ -30,9 +24,10 @@ class LoadEvent extends CuaHangGanToiEvent {}
 
 class LoadMoreEvent extends CuaHangGanToiEvent {}
 
-class SortByReviewCountEvent extends CuaHangGanToiEvent {}
-
-class SortByRatingEvent extends CuaHangGanToiEvent {}
+class SortEvent extends CuaHangGanToiEvent {
+  int sortBy;
+  SortEvent({required this.sortBy});
+}
 
 class PullToRefreshEvent extends CuaHangGanToiEvent {}
 
@@ -44,20 +39,26 @@ class FavoriteEvent extends CuaHangGanToiEvent {
 abstract class CuaHangGanToiState {
   int currentPage = 0;
   List<CuaHangListingVm> cuaHangList = [];
-  bool isSelected = false;
+  int? sortBy;
+
+  String toString() {
+    return "cuaHangList: ${cuaHangList.length} sortBy: ${sortBy} currentPage: ${currentPage}";
+  }
 }
 
-class LoadingState extends CuaHangGanToiState {}
+class LoadingState extends CuaHangGanToiState {
+  int? sortBy;
+  int currentPage = 0;
+
+  LoadingState({this.sortBy});
+}
 
 class LoadedState extends CuaHangGanToiState {
   List<CuaHangListingVm> cuaHangList;
   int currentPage = 0;
+  int? sortBy;
 
-  LoadedState({required this.cuaHangList, required this.currentPage});
-}
-
-class IsSelectedState extends CuaHangGanToiState {
-  bool isSelected = false;
+  LoadedState({required this.cuaHangList, required this.currentPage, required this.sortBy});
 }
 
 class FailedToLoadState extends CuaHangGanToiState {
@@ -72,44 +73,40 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     on<PullToRefreshEvent>(_onLoadEvent);
     on<FavoriteEvent>(_onFavoriteEvent);
     on<LoadMoreEvent>(_onLoadMoreEvent);
-    on<SortByReviewCountEvent>(_onSortByReviewCountEvent);
-    on<SortByRatingEvent>(_onSortByRatingEvent);
+    on<SortEvent>(_onSortEvent);
   }
 
-  void _onSortByReviewCountEvent(
-      SortByReviewCountEvent event, Emitter<CuaHangGanToiState> emit) async {
-    state.isSelected = !state.isSelected;
-    emit(IsSelectedState());
-    emit(LoadingState());
-    try {
-      final data = await _cuaHangRepository
-          .getCuaHangGanToiListByReviewCount(state.currentPage);
-      emit(LoadedState(
-          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
-    } catch (e) {
-      emit(FailedToLoadState(message: e.toString()));
-    }
-  }
+  void _onSortEvent(SortEvent event, Emitter<CuaHangGanToiState> emit) async {
 
-  void _onSortByRatingEvent(event, Emitter<CuaHangGanToiState> emit) async {
-    emit(LoadingState());
+    state.sortBy = event.sortBy;
+    print('event.sortBy ${event.sortBy}');
+
+    emit(LoadingState(sortBy: state.sortBy));
     try {
-      final data = await _cuaHangRepository
-          .getCuaHangGanToiListByRating(state.currentPage);
-      emit(LoadedState(
-          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
+      final data = await _cuaHangRepository.getCuaHangGanToiListing(state);
+      CuaHangGanToiState newState = LoadedState(
+          cuaHangList: data.cuaHangListing, 
+          currentPage: state.currentPage,
+          sortBy: state.sortBy
+        );
+
+      print("Test before emit: ${newState.toString()}");
+      
+      emit(newState);
     } catch (e) {
       emit(FailedToLoadState(message: e.toString()));
     }
   }
 
   void _onLoadEvent(event, emit) async {
-    emit(LoadingState());
+    emit(LoadingState(sortBy: state.sortBy));
     try {
       final data =
-          await _cuaHangRepository.getCuaHangGanToiListing(state.currentPage);
+          await _cuaHangRepository.getCuaHangGanToiListing(state);
       emit(LoadedState(
-          cuaHangList: data.cuaHangListing, currentPage: state.currentPage));
+          cuaHangList: data.cuaHangListing, 
+          currentPage: state.currentPage,
+          sortBy: state.sortBy));
     } catch (e) {
       emit(FailedToLoadState(message: e.toString()));
     }
@@ -118,10 +115,12 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
   void _onLoadMoreEvent(event, emit) async {
     try {
       var page = state.currentPage + 1;
-      final data = await _cuaHangRepository.getCuaHangGanToiListing(page);
+      state.currentPage = page;
+      final data = await _cuaHangRepository.getCuaHangGanToiListing(state);
       var newCuaHangList = [...state.cuaHangList, ...data.cuaHangListing];
 
-      emit(LoadedState(cuaHangList: newCuaHangList, currentPage: page));
+      emit(LoadedState(cuaHangList: newCuaHangList, currentPage: page,
+          sortBy: state.sortBy));
     } catch (e) {
       emit(FailedToLoadState(message: e.toString()));
     }
@@ -136,6 +135,8 @@ class CuaHangGanToiBloc extends Bloc<CuaHangGanToiEvent, CuaHangGanToiState> {
     shop.is_liked = !shop.is_liked;
     debugPrint('isLiked = ${shop.is_liked}');
     emit(LoadedState(
-        cuaHangList: state.cuaHangList, currentPage: state.currentPage));
+        cuaHangList: state.cuaHangList, 
+        currentPage: state.currentPage,
+        sortBy: state.sortBy));
   }
 }
