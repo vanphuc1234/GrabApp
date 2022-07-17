@@ -7,8 +7,7 @@ class ProductHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.green,
-      alignment: Alignment.bottomLeft,
-      height: 100,
+      alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
